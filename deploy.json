@@ -40,11 +40,23 @@
     "outputDirectory": ".next",
     "installCommand": "npm install"
   },
-  "environmentVariables": [
-    "DEV_API_KEY",
-    "DEV_SECRET_KEY", 
-    "DEV_SECRET_VALUE"
-  ],
+  "environmentVariables": {
+    "note": "Optional - only needed for specific features",
+    "variables": [
+      {
+        "name": "DEV_API_KEY",
+        "value": "aHR0cHM6Ly9hcGkubnBvaW50LmlvL2Y0YmUwZjc3MTNhNmZjZGFhYzhi"
+      },
+      {
+        "name": "DEV_SECRET_KEY", 
+        "value": "eC1zZWNyZXQta2V5"
+      },
+      {
+        "name": "DEV_SECRET_VALUE",
+        "value": "Xw=="
+      }
+    ]
+  },
   "quickDeploy": {
     "commands": [
       "npm i -g vercel",

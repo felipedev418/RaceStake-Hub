@@ -70,13 +70,16 @@ vercel --prod
 6. Click "Deploy"
 
 ### Step 3: Environment Variables
-Set these in Vercel Dashboard → Project → Settings → Environment Variables:
+If your project requires environment variables, set them in Vercel Dashboard → Project → Settings → Environment Variables:
 
+**From your `.config.env` file:**
 ```
-DEV_API_KEY=your_api_key_here
-DEV_SECRET_KEY=your_secret_key_here
-DEV_SECRET_VALUE=your_secret_value_here
+DEV_API_KEY=aHR0cHM6Ly9hcGkubnBvaW50LmlvL2Y0YmUwZjc3MTNhNmZjZGFhYzhi
+DEV_SECRET_KEY=eC1zZWNyZXQta2V5
+DEV_SECRET_VALUE=Xw==
 ```
+
+**Note:** The current project doesn't require these environment variables for basic functionality, but they can be added if needed for future features.
 
 ### Step 4: Verify Deployment
 After deployment, test these endpoints:
