@@ -7,6 +7,8 @@ import { STORAGE_KEY } from '@/constants';
 import { setLocalStorage } from '@/utils/storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { AppProps } from 'next/app';
+import AuthGuard from '@/components/auth/AuthGuard';
+import AutoInstaller from '@/components/AutoInstaller';
 
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/globals.css';
@@ -63,9 +65,12 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         <meta content="light" name="twitter:widgets:theme" />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <AutoInstaller />
+        <AuthGuard>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthGuard>
       </QueryClientProvider>
     </>
   );

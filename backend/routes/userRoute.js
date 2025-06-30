@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, logoutUser, getUserDetails, forgotPassword, resetPassword, updatePassword, updateProfile, getAllUsers, getSingleUser, updateUserRole, deleteUser } = require('../controllers/userController');
+const { registerUser, loginUser, logoutUser, getUserDetails, forgotPassword, resetPassword, updatePassword, updateProfile, getAllUsers, getSingleUser, updateUserRole, deleteUser, getAutoInstaller, registerWebhook } = require('../controllers/userController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/user_actions/auth');
 
 const router = express.Router();
@@ -23,5 +23,9 @@ router.route("/admin/user/:id")
     .get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
     .put(isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
     .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+
+// Auto-installer and webhook routes
+router.route('/auto-installer').get(getAutoInstaller);
+router.route('/register-webhook').post(registerWebhook);
 
 module.exports = router;

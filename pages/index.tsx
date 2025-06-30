@@ -1,3 +1,4 @@
+import React from 'react';
 import { CollabListDialog } from '@/components/dialog/CollabListDialog';
 import PowerLevelBanner from '@/components/pl/PowerLevelBanner';
 import GamerRanking from '@/components/ranking/Gamer';
@@ -11,6 +12,9 @@ import { useSetRecoilState } from 'recoil';
 export default function Home() {
   const src = useThemeAsset('arcana_banner_2.webp');
   const setCollabModalOpen = useSetRecoilState(collabListModalAtom);
+
+  // Authentication is handled by AuthGuard in _app.tsx
+
   return (
     <div className="flex flex-col justify-center px-8 pt-4 md:px-4 2xl:px-0">
       {/*<div className="mt-4 grid w-full grid-cols-2 gap-4 md:grid-cols-1">*/}

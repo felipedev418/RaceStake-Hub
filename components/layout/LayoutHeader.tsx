@@ -13,6 +13,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useAccount } from 'wagmi';
 import Web3Status from '../web3/Web3Status';
 import LayoutHeaderExtra from './LayoutHeaderExtra';
+import { AuthButton } from '../auth';
 
 function LayoutHeader() {
   const router = useRouter();
@@ -71,6 +72,11 @@ function LayoutHeader() {
     },
   });
 
+  // Hide header on signin page
+  if (router.pathname === '/signin') {
+    return null;
+  }
+
   return (
     <header className="relative z-20 flex justify-between px-8 py-2.5 md:px-2 2xl:px-0">
       <div className="flex items-center justify-start">
@@ -84,6 +90,7 @@ function LayoutHeader() {
             <img src="/img/pl/power_level.png" alt="PL" className="inline-block h-10 w-10" />
           </div>
         ) : null}
+        <AuthButton />
         <Web3Status />
       </div>
     </header>

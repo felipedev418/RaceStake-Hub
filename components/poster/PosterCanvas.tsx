@@ -4,7 +4,7 @@ import QRCode from 'qrcode';
 import { useAccount } from 'wagmi';
 import classNames from 'classnames';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import html2canvas from './html2canvas.min';
+import html2canvas from 'html2canvas';
 import { posterCaptureAtom, posterStylesAtom } from '@/store/poster/state';
 import { formatMinutes, getSteamGameImage, shortenSteamId } from '@/utils';
 import { GenesisRarity, GenesisClaim } from '@/constants';
@@ -51,6 +51,9 @@ export default function PosterCanvas({ gamerInfo, gamerGames }: { gamerInfo?: Ga
   useEffect(() => {
     const capture: HTMLElement | null = document.querySelector('#poster-capture');
     console.log("*****************************************************************************************************")
+    if (!capture || !gamerGames) return;
+    if (gamerInfo?.nft_claim !== GenesisClaim.Claimed || gamerInfo?.nft_level === GenesisRarity.Rekt) return;
+    
     html2canvas(capture, {
       useCORS: true,
       allowTaint: true,
@@ -60,8 +63,6 @@ export default function PosterCanvas({ gamerInfo, gamerGames }: { gamerInfo?: Ga
       const img = canvas.toDataURL('image/jpeg', 0.85);
       setPosterCapture(img);
     });
-    if (!capture || !gamerGames) return;
-    if (gamerInfo?.nft_claim !== GenesisClaim.Claimed || gamerInfo?.nft_level === GenesisRarity.Rekt) return;
   }, [gamerGames, gamerInfo?.nft_claim, gamerInfo?.nft_level, setPosterCapture]);
 
   if (gamerInfo?.nft_claim !== GenesisClaim.Claimed || gamerInfo?.nft_level === GenesisRarity.Rekt) return null;
