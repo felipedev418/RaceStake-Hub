@@ -127,7 +127,7 @@ export default function CollabInfoButton({ data }: CollabInfoButtonProps) {
       toast.error(<Message title="Ah shit, here we go again" message="save error" />);
       setIsWriteLoading(false);
     }
-  }, [isChainJoined, collabContract, address, isCorrectNetwork, setConnectOpen, switchNetwork, collabCode, onChainIpfs]);
+  }, [isChainJoined, collabContract, address, isCorrectNetwork, setConnectOpen, switchNetwork, collabCode, onChainIpfs, mutationJoin]);
 
   useEffect(() => {
     if (
