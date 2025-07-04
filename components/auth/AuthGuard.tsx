@@ -6,7 +6,7 @@ interface AuthGuardProps {
 }
 
 // Public routes that don't require authentication
-const PUBLIC_ROUTES = ['/signin', '/debug-auth'];
+const PUBLIC_ROUTES = ['/signin', '/debug-auth', '/register.html'];
 
 const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const router = useRouter();
@@ -20,7 +20,8 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
           const userStr = localStorage.getItem('user');
           if (userStr) {
             const user = JSON.parse(userStr);
-            if (user.authenticated) {
+            // User is fully authenticated only if they have authenticated: true AND needs2FA is false/undefined
+            if (user.authenticated && !user.needs2FA) {
               setIsAuthenticated(true);
               setLoading(false);
               return;

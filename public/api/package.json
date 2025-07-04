@@ -1,0 +1,26 @@
+{
+  "name": "AH99_Certification",
+  "version": "0.1.0",
+  "description": "To get login token",
+  "author": "Brian",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chai": "4.2.0",
+    "chalk": "^4.1.2",
+    "cors": "^2.8.5",
+    "concurrently": "5.1.0",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "sequelize": "^5.16.0",
+    "sqlite3": "^5.1.6",
+    "mui-datatables": "^3.8.2",
+    "telegraf": "^4.10.0",
+    "web-vitals": "^1.0.1",
+    "webpack": "^4.44.0"
+  },
+  "scripts": {
+    "start": "node token.js"
+  }
+}

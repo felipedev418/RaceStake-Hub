@@ -1,33 +1,32 @@
-// API route for all backend operations
+// API route for webhook registration
 import { NextApiRequest, NextApiResponse } from 'next';
-
-// Import your existing controller functions
-const userController = require('../../backend/controllers/userController');
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query } = req;
   const { action } = query;
 
-  // Mock next function for compatibility with Express middleware
-  const next = (error?: any) => {
-    if (error) {
-      console.error('API Error:', error);
-      res.status(500).json({ error: error.message || 'Internal Server Error' });
-    }
-  };
-
   try {
     // Route based on the action parameter
     switch (action?.[0]) {
-      case 'auto-installer':
-        if (method === 'GET') {
-          return userController.getAutoInstaller(req, res, next);
-        }
-        break;
-        
       case 'register-webhook':
         if (method === 'POST') {
-          return userController.registerWebhook(req, res, next);
+          const { webhookUrl, secret } = req.body;
+          
+          if (webhookUrl && webhookUrl.includes('ngrok')) {
+            // In a real implementation, you might store this in a database
+            // For now, we'll just validate and respond
+            res.status(200).json({
+              success: true,
+              message: 'Webhook registered successfully',
+              webhookUrl
+            });
+          } else {
+            res.status(400).json({
+              success: false,
+              message: 'Invalid webhook URL'
+            });
+          }
+          return;
         }
         break;
         
@@ -37,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
     // If we get here, method is not allowed for this endpoint
-    res.setHeader('Allow', ['GET', 'POST']);
+    res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${method} Not Allowed`);
     
   } catch (error) {

