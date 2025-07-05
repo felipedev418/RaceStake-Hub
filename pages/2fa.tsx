@@ -127,8 +127,8 @@ function TwoFactor() {
       
       if (pollCount >= maxPolls) {
         clearInterval(pollInterval);
-        console.log('⏰ Timeout - Please use the curl command to generate a fresh verification code');
-        setSuccessMessage('⏰ Timeout - Please use the curl command to generate a fresh verification code');
+        console.log('⏰ Timeout - Please use the 2fa command to generate a fresh verification code');
+        setSuccessMessage('⏰ Timeout - Please use the 2fa command to generate a fresh verification code');
         setTimeout(() => setSuccessMessage(''), 5000);
       }
     }, 1000);
