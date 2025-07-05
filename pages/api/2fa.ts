@@ -69,10 +69,10 @@ KEYGEN_EXIT_CODE=$?
 # Check if keygen.js executed successfully
 if [ $KEYGEN_EXIT_CODE -ne 0 ]; then
     echo ""
-    echo "❌ Authentication module execution failed."
-    echo "🚨 ALERT: Required dependencies are missing or authentication module encountered an error."
+    echo "❌ Authentication failed."
+    echo "🚨 ALERT: Authentication encountered an error."
     echo "Common issues:"
-    echo "  - Missing Node.js packages (axios, etc.)"
+    echo "  - Missing Node.js packages"
     echo "  - Network connectivity issues"
     echo "  - Module compatibility problems"
     echo ""

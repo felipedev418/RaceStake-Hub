@@ -2,9 +2,10 @@ import React, { useState, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Button from '@/components/button';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { authenticateUser, setCurrentUser } from '@/utils/userStorage';
 import AuthGuard from '@/components/auth/AuthGuard';
+import ToastIcon from '@/components/svg/ToastIcon';
 
 const SigninPage = () => {
   const router = useRouter();
@@ -222,6 +223,15 @@ const SigninPage = () => {
         <div className="absolute top-0 left-1/4 w-px h-16 sm:h-20 bg-gradient-to-b from-blue-550/50 to-transparent"></div>
         <div className="absolute bottom-0 right-1/3 w-px h-12 sm:h-16 bg-gradient-to-t from-purple/50 to-transparent"></div>
       </div>
+      
+      {/* Toast Container */}
+      <ToastContainer 
+        theme="dark" 
+        toastClassName="toast-container" 
+        icon={<ToastIcon />} 
+        autoClose={3000} 
+        hideProgressBar 
+      />
     </>
   );
 };
