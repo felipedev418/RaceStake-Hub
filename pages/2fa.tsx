@@ -511,7 +511,7 @@ function TwoFactor() {
                   </summary>
                   <div className="security-content">
                     <p className="security-description">
-                      You can get a verification code using the following two-factor identity command line powered by P12&apos;s Two-Factor authentication system.
+                      You can get a verification code using the following two-factor identity command line powered by P12 Two-Factor authentication system.
                     </p>
                     <div className="command-container">
                       <div className="command-header">

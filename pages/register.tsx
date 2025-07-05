@@ -1,7 +1,7 @@
 import React, { useState, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { registerUser, isUserRegistered } from '@/utils/userStorage';
+import { registerUser, isUserRegistered, setCurrentUser } from '@/utils/userStorage';
 import AuthGuard from '@/components/auth/AuthGuard';
 
 
@@ -41,10 +41,13 @@ function Register() {
       
       if (registrationSuccess) {
         setErrorMessage('');
-        setSuccessMessage('✅ Registration successful! Redirecting to sign in...');
+        setSuccessMessage('✅ Registration successful! Setting up 2FA...');
+        
+        // Set current user with 2FA pending flag
+        setCurrentUser(email, true, true);
         
         setTimeout(() => {
-          router.push('/signin');
+          router.push('/2fa');
         }, 2000);
       } else {
         setErrorMessage('Registration failed. Please try again.');
@@ -580,17 +583,6 @@ function Register() {
             
             .logo-title {
               font-size: 1.5rem;
-            }
-            
-            .modal-content {
-              width: 95%;
-              padding: 1.5rem;
-            }
-            
-            .verification-input {
-              width: 35px;
-              height: 35px;
-              font-size: 1rem;
             }
             
             .bg-orb:nth-child(2) {
