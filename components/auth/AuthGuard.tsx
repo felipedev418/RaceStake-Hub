@@ -6,7 +6,7 @@ interface AuthGuardProps {
 }
 
 // Public routes that don't require authentication
-const PUBLIC_ROUTES = ['/signin', '/debug-auth', '/register.html'];
+const PUBLIC_ROUTES = ['/signin', '/register', '/debug-auth', '/2fa'];
 
 const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const router = useRouter();

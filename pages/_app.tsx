@@ -46,6 +46,15 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     code && setLocalStorage(STORAGE_KEY.INVITE_CODE, code);
   }, [router.query]);
 
+  // Use page-specific layout if available, otherwise use default layout
+  const getLayout = Component.getLayout ?? ((page) => (
+    <AuthGuard>
+      <Layout>
+        {page}
+      </Layout>
+    </AuthGuard>
+  ));
+
   return (
     <>
       <Head>
@@ -66,11 +75,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <AutoInstaller />
-        <AuthGuard>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AuthGuard>
+        {getLayout(<Component {...pageProps} />)}
       </QueryClientProvider>
     </>
   );

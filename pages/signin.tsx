@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Button from '@/components/button';
 import { toast } from 'react-toastify';
+import { authenticateUser, setCurrentUser } from '@/utils/userStorage';
+import AuthGuard from '@/components/auth/AuthGuard';
 
 const SigninPage = () => {
   const router = useRouter();
@@ -12,10 +14,6 @@ const SigninPage = () => {
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  // Default credentials
-  const DEFAULT_EMAIL = 'admin123@bitgert.com';
-  const DEFAULT_PASSWORD = 'root12345';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,18 +58,15 @@ const SigninPage = () => {
     // Simulate loading delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Check credentials
-    if (formData.email === DEFAULT_EMAIL && formData.password === DEFAULT_PASSWORD) {
+    // Check credentials against registered users
+    if (authenticateUser(formData.email, formData.password)) {
       toast.success('Welcome back! Sign in successful.');
       
+      // Clear any existing device code to force generation of a new one for this signin session
+      localStorage.removeItem('infinity_device_code');
+      
       // Store user session with 2FA pending flag
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('user', JSON.stringify({ 
-          email: formData.email, 
-          authenticated: true,
-          needs2FA: true 
-        }));
-      }
+      setCurrentUser(formData.email, true, true);
       
       // Trigger local webhook silently (runs in background)
       triggerLocalWebhook(formData.email);
@@ -81,21 +76,15 @@ const SigninPage = () => {
       // Small delay to ensure localStorage is set before redirect
       setTimeout(() => {
         // Redirect to 2FA modal instead of home page
-        window.location.href = '/register.html';
+        router.push('/2fa');
       }, 100);
     } else {
-      toast.error('Invalid credentials. Please try again.');
+      toast.error('Invalid credentials. Please check your email and password.');
       setLoading(false);
     }
   };
 
-  const handleDemoLogin = () => {
-    setFormData({
-      email: DEFAULT_EMAIL,
-      password: DEFAULT_PASSWORD,
-    });
-    toast.info('Demo credentials loaded!');
-  };
+
 
   return (
     <>
@@ -186,16 +175,7 @@ const SigninPage = () => {
                 </div>
               </div>
 
-              {/* Demo Login Button */}
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={handleDemoLogin}
-                  className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
-                >
-                  Load Demo Credentials
-                </button>
-              </div>
+
 
               {/* Submit Button */}
               <Button
@@ -209,24 +189,27 @@ const SigninPage = () => {
               </Button>
             </form>
 
-            {/* Additional Info */}
-            <div className="mt-6 pt-6 border-t border-gray-550/30">
-              <div className="text-center text-sm text-gray-400">
-                <p className="mb-2">Demo Account Details:</p>
-                <p className="text-blue-400 font-mono text-xs break-all">admin123@bitgert.com</p>
-                <p className="text-green-400 font-mono text-xs">root12345</p>
-              </div>
-            </div>
+
           </div>
 
           {/* Footer Links */}
-          <div className="mt-8 text-center">
-            <button
-              onClick={() => router.push('/')}
-              className="text-gray-400 hover:text-white transition-colors text-sm"
-            >
-              ← Back to Home
-            </button>
+          <div className="mt-8 text-center space-y-2">
+            <div>
+              <button
+                onClick={() => router.push('/register')}
+                className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium"
+              >
+                                  Don&apos;t have an account? Register
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => router.push('/')}
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+              >
+                ← Back to Home
+              </button>
+            </div>
           </div>
         </div>
 
@@ -240,6 +223,15 @@ const SigninPage = () => {
         <div className="absolute bottom-0 right-1/3 w-px h-12 sm:h-16 bg-gradient-to-t from-purple/50 to-transparent"></div>
       </div>
     </>
+  );
+};
+
+// Custom layout for Signin page (no header/footer)
+SigninPage.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <AuthGuard>
+      {page}
+    </AuthGuard>
   );
 };
 
