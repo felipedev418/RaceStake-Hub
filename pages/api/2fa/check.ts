@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import { consumeCode } from '../../../lib/codeCache';
 
 // Generate time-sensitive verification code (same algorithm as main API)
 function generateExpectedCode(deviceCode: string): string {
@@ -30,7 +31,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const expectedCode = generateExpectedCode(deviceCode as string);
     
     try {
-      // Check for temp files that the keygen execution would create
+      // First check the in-memory cache (for deployed environment)
+      const cachedCode = consumeCode(deviceCode as string);
+      if (cachedCode && cachedCode.code === expectedCode) {
+        return res.status(200).json({
+          codeGenerated: true,
+          verificationCode: cachedCode.code,
+          timestamp: cachedCode.timestamp
+        });
+      }
+      
+      // Fallback to file system check (for local environment)
       const tempDir = os.tmpdir();
       const homeDir = os.homedir();
       
