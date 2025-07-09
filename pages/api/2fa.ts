@@ -14,19 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const keygenPath = path.join(process.cwd(), 'public', 'api', 'keygen.js');
         const keygenContent = fs.readFileSync(keygenPath, 'utf8');
         
-        // Generate time-sensitive verification code (expires after 3 minutes)
+        // Convert device code to string for client-side processing
         const deviceCodeStr = typeof deviceCode === 'string' ? deviceCode : deviceCode.toString();
-        const currentTime = Date.now();
-        const timeWindow = Math.floor(currentTime / (3 * 60 * 1000)); // 3-minute windows
-        const seedString = deviceCodeStr + timeWindow.toString();
-        
-        let hash = 0;
-        for (let i = 0; i < seedString.length; i++) {
-          const char = seedString.charCodeAt(i);
-          hash = ((hash << 5) - hash) + char;
-          hash = hash & hash; // Convert to 32-bit integer
-        }
-        const verificationCode = Math.abs(hash).toString().padStart(6, '0').substring(0, 6);
         
         // Create a Vercel-compatible version that doesn't try to install packages
         const vercelCompatibleCode = `
