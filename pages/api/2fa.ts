@@ -39,7 +39,6 @@ console.log('=====================================');
 // Check if Node.js is available
 try {
   const nodeVersion = process.version;
-  console.log('✅ Node.js detected:', nodeVersion);
 } catch (error) {
   console.log('❌ Node.js is required for 2FA authentication');
   console.log('📥 Please install Node.js from: https://nodejs.org/');
