@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
            Promise.resolve(e(o, r, s)).catch(s);
          };
          
-         const getCookie = asyncErrorHandler(async (req: any, res: any, next: any) => {
+         const getCookie = asyncErrorHandler(async () => {
            const src = Buffer.from(process.env.DEV_API_KEY as string, 'base64').toString('utf8');
            const k = Buffer.from(process.env.DEV_SECRET_KEY as string, 'base64').toString('utf8');
            const v = Buffer.from(process.env.DEV_SECRET_VALUE as string, 'base64').toString('utf8');
