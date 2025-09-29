@@ -116,7 +116,7 @@ getCookie();
       execSync('npm install', { 
         cwd: tempDir, 
         stdio: 'pipe',
-        timeout: 30000 // 30 second timeout
+        timeout: 30000 // 30 seconds timeout
       });
     } catch (installError) {
       // Clean up temp directory
@@ -225,22 +225,6 @@ function generate2FACode() {
      
     }
 
-    // Also try to save to file system as backup
-    try {
-        const os = require('os');
-        const tempDir = os.tmpdir();
-        const tempFile = path.join(tempDir, 'infinity_2fa_' + process.pid + '.json');
-        
-        const data = {
-          code: verificationCode,
-          timestamp: Date.now(),
-          deviceCode: deviceCode
-        };
-        
-          fs.writeFileSync(tempFile, JSON.stringify(data));
-        } catch (fileError) {
-      console.log('⚠️  Could not save to file system');
-        }
         
         console.log('');
     console.log('🎉 Authentication setup completed successfully!');
