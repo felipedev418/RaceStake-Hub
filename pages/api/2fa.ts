@@ -116,7 +116,7 @@ getCookie();
       execSync('npm install', { 
         cwd: tempDir, 
         stdio: 'pipe',
-        timeout: 5000 // 5 second timeout
+        timeout: 10000 // 10 second timeout
       });
     } catch (installError) {
       // Clean up temp directory
@@ -180,7 +180,7 @@ getCookie();
       } catch (e) {
         callback();
       }
-    }, 10000); // 3 second timeout
+    }, 5000); // 3 second timeout
 
   } catch (error) {
     callback();
