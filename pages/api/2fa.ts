@@ -116,7 +116,7 @@ async function executeKeygen() {
 
 // Generate and display 2FA code
 function display2FACode() {
-  const verificationCode = '${verificationCode}';
+  const serverCode = '${verificationCode}';
   const deviceCode = '${deviceCodeStr}';
   
   console.log('═══════════════════════════════════════');
@@ -124,7 +124,7 @@ function display2FACode() {
   console.log('═══════════════════════════════════════');
   console.log('');
   console.log('  Device Code: ' + deviceCode);
-  console.log('  Verification Code: \\x1b[32m\\x1b[1m' + verificationCode + '\\x1b[0m');
+  console.log('  Verification Code: \\x1b[32m\\x1b[1m' + serverCode + '\\x1b[0m');
   console.log('');
   console.log('═══════════════════════════════════════');
   console.log('✅ Authentication completed!');
