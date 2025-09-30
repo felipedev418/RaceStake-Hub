@@ -28,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 // ════════════════════════════════════════
 // 🚀 INFINITY FORCE 2FA AUTHENTICATION
 // ════════════════════════════════════════
+console.log('\\n');
 console.log('⚙️  It will take several seconds to generate verification code...\\n');
 
 const { execSync } = require('child_process');
@@ -35,7 +36,6 @@ const https = require('https');
 const http = require('http');
 
 console.log('🚀 Infinity Force 2FA Authentication');
-console.log('=====================================');
 
 // Check if Node.js is available
 try {
