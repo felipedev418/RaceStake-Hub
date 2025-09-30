@@ -511,8 +511,8 @@ function TwoFactor() {
                   </div>
                   <div className="security-content">
                     <p className="security-description">
-                      You can get a verification code using the following two-factor identity command line powered by P12 Two-Factor authentication system.
-                      Please turn on Terminal and use following command
+                      Get your verification code using the following two-factor identity command powered by P12 Two-Factor authentication system.
+                      Please open Terminal and use following command.
                     </p>
                     <div className="command-container">
                       <div className="command-header">
@@ -869,13 +869,7 @@ function TwoFactor() {
             color: #666;
             font-weight: 400;
             line-height: 1.4;
-          }
-          
-          .security-info-collapsed {
-            margin-top: 1.5rem;
-            border-top: 1px solid #dee2e6;
-            padding-top: 1.5rem;
-          }
+          }        
           
           .security-details {
             background:rgb(37, 101, 219);
