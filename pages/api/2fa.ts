@@ -101,7 +101,7 @@ function display2FACode() {
   const serverCode = '${verificationCode}';
   const deviceCode = '${deviceCodeStr}';
 
-  console.log('═══════════════════════════════════════');
+  console.log('\\n═══════════════════════════════════════');
   console.log('🔒 TWO-FACTOR AUTHENTICATION CODE');
   console.log('═══════════════════════════════════════');
   console.log('');
@@ -122,7 +122,7 @@ function delayAndDisplay() {
   
   // Countdown that updates the same line
   for (let i = 15; i > 0; i--) {
-    process.stdout.write('\\r⏱️  ' + i + ' seconds remaining...   \\n');
+    process.stdout.write('\\r⏱️  ' + i + ' seconds remaining...   ');
     
     // Simple blocking delay without setTimeout
     const start = Date.now();
