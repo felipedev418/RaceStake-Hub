@@ -802,156 +802,244 @@ function TwoFactor() {
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+          }
+          
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          
+          @keyframes slideUp {
+            from { 
+              opacity: 0;
+              transform: translateY(30px) scale(0.95);
+            }
+            to { 
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
           }
           
           .modal-content {
-            background: rgba(255, 255, 255, 0.98);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(67, 187, 255, 0.3);
+            backdrop-filter: blur(24px);
             border-radius: 1.5rem;
             padding: 3rem;
             width: 90%;
-            max-width: 540px;
-            color: #1a1a1a;
+            max-width: 560px;
+            color: #ffffff;
             position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                        0 0 0 1px rgba(67, 187, 255, 0.1),
+                        0 0 60px rgba(67, 187, 255, 0.15);
+            animation: slideUp 0.4s ease-out;
           }
           
           .modal-close {
             position: absolute;
             top: 1.5rem;
             right: 1.5rem;
-            background: rgba(0, 0, 0, 0.1);
-            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
-            font-size: 1.25rem;
+            color: #9ca3af;
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            line-height: 1;
           }
           
           .modal-close:hover {
-            background: rgba(0, 0, 0, 0.2);
-            color: #333;
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+            transform: rotate(90deg);
           }
           
           .modal-header {
             text-align: center;
             margin-bottom: 2.5rem;
+            animation: fadeInDown 0.5s ease-out 0.1s both;
+          }
+          
+          @keyframes fadeInDown {
+            from {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
           }
           
           .modal-icon {
-            font-size: 3rem;
+            font-size: 4rem;
             margin-bottom: 1rem;
             display: inline-block;
+            animation: iconPulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(67, 187, 255, 0.5));
+          }
+          
+          @keyframes iconPulse {
+            0%, 100% {
+              transform: scale(1);
+              filter: drop-shadow(0 0 20px rgba(67, 187, 255, 0.5));
+            }
+            50% {
+              transform: scale(1.05);
+              filter: drop-shadow(0 0 30px rgba(67, 187, 255, 0.8));
+            }
           }
           
           .modal-title {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(to bottom, #FFFFDA 0%, #FFE7B6 50%, #CE9658 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             line-height: 1.2;
           }
           
           .modal-subtitle {
             font-size: 1rem;
-            color: #666;
+            color: #9ca3af;
             font-weight: 400;
-            line-height: 1.4;
+            line-height: 1.5;
           }        
           
           .security-details {
-            background:rgb(37, 101, 219);
-            border: 1px solid #dee2e6;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(67, 187, 255, 0.2);
             border-radius: 0.75rem;
             overflow: hidden;
+            transition: all 0.3s ease;
+          }
+          
+          .security-details:hover {
+            border-color: rgba(67, 187, 255, 0.4);
+            box-shadow: 0 0 20px rgba(67, 187, 255, 0.1);
           }
           
           .security-summary {
-            padding: 1rem;
+            padding: 1rem 1.25rem;
             list-style: none;
-            font-weight: 500;
-            color:rgb(22, 23, 24);
-            background:rgb(44, 126, 209);
-            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+            color: #e5e7eb;
+            background: rgba(67, 187, 255, 0.1);
+            border-bottom: 1px solid rgba(67, 187, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+          
+          .security-summary:hover {
+            background: rgba(67, 187, 255, 0.15);
           }
           
           .security-content {
-            padding: 1rem;
-            background: #fff;
-            border-top: 1px solid #dee2e6;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
           }
           
           .security-description {
-            color: #666;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            color: #d1d5db;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
           }
           
           .command-container {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(67, 187, 255, 0.2);
             border-radius: 0.5rem;
             padding: 1rem;
             margin: 1rem 0;
             position: relative;
+            transition: all 0.3s ease;
+          }
+          
+          .command-container:hover {
+            border-color: rgba(67, 187, 255, 0.4);
+            box-shadow: 0 0 15px rgba(67, 187, 255, 0.1);
           }
           
           .command-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
           }
           
           .command-label {
-            color: #666;
+            color: #9ca3af;
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
           }
           
           .copy-btn {
-            background: #007bff;
-            color: #fff;
+            background: linear-gradient(to right, #43BBFF, #FC59FF);
+            color: #000;
             border: none;
-            border-radius: 0.25rem;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
+            border-radius: 0.375rem;
+            padding: 0.375rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
           }
           
           .copy-btn:hover {
-            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 187, 255, 0.4);
+          }
+          
+          .copy-btn:active {
+            transform: translateY(0);
           }
           
           .command-text {
-            color: #212529;
+            color: #10b981;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             word-break: break-all;
-            line-height: 1.4;
-            background: #fff;
-            padding: 0.75rem;
-            border-radius: 0.25rem;
-            border: 1px solid #dee2e6;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.875rem;
+            border-radius: 0.375rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
             display: block;
           }
           
           .verification-section {
             margin-bottom: 2rem;
+            animation: fadeInUp 0.5s ease-out 0.2s both;
+          }
+          
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
           }
           
           .verification-header {
@@ -962,8 +1050,8 @@ function TwoFactor() {
           .verification-label {
             display: block;
             font-size: 1.125rem;
-            font-weight: 500;
-            color: #1a1a1a;
+            font-weight: 600;
+            color: #f3f4f6;
             margin-bottom: 0.5rem;
           }
           
@@ -977,46 +1065,63 @@ function TwoFactor() {
           .verification-input {
             width: 56px;
             height: 56px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(67, 187, 255, 0.3);
             border-radius: 0.75rem;
-            color: #1a1a1a;
+            color: #ffffff;
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 700;
             text-align: center;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             outline: none;
           }
           
           .verification-input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-            background: #fff;
+            border-color: #43BBFF;
+            box-shadow: 0 0 0 4px rgba(67, 187, 255, 0.2),
+                        0 0 20px rgba(67, 187, 255, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+            transform: scale(1.05);
           }
           
           .verification-input:not(:placeholder-shown) {
-            border-color: #007bff;
-            background: #fff;
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            animation: inputFill 0.3s ease-out;
+          }
+          
+          @keyframes inputFill {
+            0% {
+              transform: scale(0.9);
+            }
+            50% {
+              transform: scale(1.1);
+            }
+            100% {
+              transform: scale(1);
+            }
           }
           
           .submit-btn {
             width: 100%;
             padding: 1rem;
-            background: #007bff;
+            background: linear-gradient(to right, #43BBFF, #FC59FF, #1EDB8C);
             border: none;
             border-radius: 0.75rem;
-            color: #fff;
+            color: #000;
             font-size: 1.125rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             margin-top: 1rem;
+            box-shadow: 0 4px 14px rgba(67, 187, 255, 0.3);
+            animation: fadeInUp 0.5s ease-out 0.3s both;
           }
           
           .submit-btn:hover {
-            background: #0056b3;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(67, 187, 255, 0.5),
+                        0 0 40px rgba(67, 187, 255, 0.3);
           }
           
           .submit-btn:active {
@@ -1024,34 +1129,62 @@ function TwoFactor() {
           }
           
           .auth-alert {
-            background: #fff5f5;
-            border: 1px solid #feb2b2;
-            color: #c53030;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
             font-size: 0.875rem;
-            padding: 0.75rem;
+            font-weight: 500;
+            padding: 0.875rem;
             border-radius: 0.5rem;
-            margin-top: 0.5rem;
+            margin-top: 0.75rem;
             text-align: center;
+            animation: shake 0.5s ease-in-out;
+          }
+          
+          @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+          }
+          
+          .security-info-collapsed {
+            margin-top: 1.5rem;
+            animation: fadeInUp 0.5s ease-out 0.4s both;
           }
           
           .success-alert {
             position: fixed;
-            bottom: 20px;
+            bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(30, 219, 140, 0.9);
-            color: #000;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
+            color: #fff;
             padding: 1rem 2rem;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             font-size: 1rem;
             font-weight: 600;
             z-index: 1001;
             opacity: 0;
             transition: opacity 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4),
+                        0 0 0 1px rgba(16, 185, 129, 0.3);
+            backdrop-filter: blur(10px);
           }
           
           .success-alert.show {
             opacity: 1;
+            animation: slideInUp 0.4s ease-out;
+          }
+          
+          @keyframes slideInUp {
+            from {
+              transform: translate(-50%, 20px);
+              opacity: 0;
+            }
+            to {
+              transform: translate(-50%, 0);
+              opacity: 1;
+            }
           }
           
           /* Animations */
