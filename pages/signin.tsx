@@ -1,7 +1,6 @@
 import React, { useState, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Button from '@/components/button';
 import { toast, ToastContainer } from 'react-toastify';
 import { authenticateUser, setCurrentUser } from '@/utils/userStorage';
 import AuthGuard from '@/components/auth/AuthGuard';
@@ -95,46 +94,57 @@ const SigninPage = () => {
       </Head>
       
       <div className="fixed inset-0 min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-black">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-550/20 via-purple/10 to-green/20 animate-pulse"></div>
-        <div className="absolute top-10 left-10 sm:top-20 sm:left-20 w-64 h-64 sm:w-96 sm:h-96 bg-blue-550/10 rounded-full blur-3xl animate-ping-slow"></div>
-        <div className="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-48 h-48 sm:w-80 sm:h-80 bg-purple/10 rounded-full blur-3xl animate-ping-slow delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-60 sm:h-60 bg-green/10 rounded-full blur-3xl animate-ping-slow delay-2000"></div>
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-550/20 via-purple/10 to-green/20 animate-gradient-shift"></div>
+        
+        {/* Animated Orbs */}
+        <div className="absolute top-10 left-10 sm:top-20 sm:left-20 w-64 h-64 sm:w-96 sm:h-96 bg-blue-550/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-48 h-48 sm:w-80 sm:h-80 bg-purple/20 rounded-full blur-3xl animate-float-delayed"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-60 sm:h-60 bg-green/20 rounded-full blur-3xl animate-pulse-slow"></div>
+
+        {/* Floating Particles */}
+        <div className="absolute top-10 right-[15%] w-2 h-2 bg-blue-550/40 rounded-full animate-float-particle"></div>
+        <div className="absolute top-[30%] right-[10%] w-3 h-3 bg-purple/40 rounded-full animate-float-particle-delayed"></div>
+        <div className="absolute bottom-[20%] left-[15%] w-2 h-2 bg-green/40 rounded-full animate-float-particle-slow"></div>
+        <div className="absolute top-[60%] right-[25%] w-1.5 h-1.5 bg-blue-550/30 rounded-full animate-float-particle"></div>
+
+        {/* Grid Pattern Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(67,187,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(67,187,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
 
         {/* Main Container */}
         <div className="relative z-10 w-full max-w-md mx-4 sm:mx-8">
           {/* Logo/Brand Section */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-p12-gradient mb-4 animate-pulse">
-              <span className="text-2xl font-bold text-black">P12</span>
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-550 via-purple to-green mb-4 animate-pulse-glow shadow-[0_0_30px_rgba(67,187,255,0.5)]">
+              <span className="text-3xl font-bold text-black">P12</span>
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-yellow bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-b from-[#FFFFDA] via-[#FFE7B6] to-[#CE9658] bg-clip-text text-transparent mb-2 animate-fade-in">
               Welcome Back
             </h1>
-            <p className="text-gray-400">Sign in to your gaming account</p>
+            <p className="text-gray-400 text-base animate-fade-in-delayed">Sign in to continue your gaming journey</p>
           </div>
 
           {/* Signin Form */}
-          <div className="backdrop-box rounded-2xl p-8 shadow-2xl">
+          <div className="backdrop-blur-xl bg-gray-850/50 border border-gray-700/50 rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_48px_rgba(67,187,255,0.15)] transition-all duration-300">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email Input */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">
+              <div className="animate-slide-up">
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-200 mb-2">
                   Email Address
                 </label>
-                <div className="relative">
+                <div className="relative group">
                   <input
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-black/30 border border-gray-550/50 rounded-lg focus:ring-2 focus:ring-blue-550 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
-                    placeholder="Enter your email"
+                    className="w-full px-4 py-3 pr-12 bg-black/40 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-550 focus:border-blue-550 transition-all duration-200 text-white placeholder-gray-500 hover:border-gray-500/70"
+                    placeholder="your.email@example.com"
                     required
                   />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400 group-focus-within:text-blue-550 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                     </svg>
                   </div>
@@ -142,25 +152,25 @@ const SigninPage = () => {
               </div>
 
               {/* Password Input */}
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-200 mb-2">
+              <div className="animate-slide-up-delayed">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-200 mb-2">
                   Password
                 </label>
-                <div className="relative">
+                <div className="relative group">
                   <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-black/30 border border-gray-550/50 rounded-lg focus:ring-2 focus:ring-blue-550 focus:border-transparent transition-all duration-200 text-white placeholder-gray-400"
+                    className="w-full px-4 py-3 pr-12 bg-black/40 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-550 focus:border-blue-550 transition-all duration-200 text-white placeholder-gray-500 hover:border-gray-500/70"
                     placeholder="Enter your password"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white transition-colors"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white transition-colors focus:outline-none"
                   >
                     {showPassword ? (
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,52 +186,53 @@ const SigninPage = () => {
                 </div>
               </div>
 
-
-
               {/* Submit Button */}
-              <Button
-                type="gradient"
-                size="large"
-                loading={loading}
-                htmlType="submit"
-                className="w-full font-semibold text-lg"
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 px-6 bg-gradient-to-r from-blue-550 via-purple to-green hover:from-blue-600 hover:via-purple/90 hover:to-green/90 text-black font-bold text-lg rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(67,187,255,0.5)] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none animate-fade-in-more-delayed"
               >
-                {loading ? 'Signing In...' : 'Sign In'}
-              </Button>
+                {loading ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Signing In...
+                  </span>
+                ) : 'Sign In'}
+              </button>
             </form>
-
-
           </div>
 
           {/* Footer Links */}
-          <div className="mt-8 text-center space-y-2">
+          <div className="mt-8 text-center space-y-3 animate-fade-in-last">
             <div>
               <button
                 onClick={() => router.push('/register')}
-                className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium"
+                className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-semibold hover:underline"
               >
-                                  Don&apos;t have an account? Register
+                Don&apos;t have an account? <span className="text-white">Register Now</span>
               </button>
             </div>
             <div>
               <button
                 onClick={() => router.push('/')}
-                className="text-gray-400 hover:text-white transition-colors text-sm"
+                className="inline-flex items-center text-gray-400 hover:text-white transition-colors text-sm group"
               >
-                ← Back to Home
+                <svg className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Home
               </button>
             </div>
           </div>
         </div>
 
-        {/* Floating Gaming Elements */}
-        <div className="absolute top-10 right-10 w-6 h-6 sm:w-8 sm:h-8 bg-blue-550/20 rounded-full animate-bounce delay-500"></div>
-        <div className="absolute bottom-10 left-10 w-4 h-4 sm:w-6 sm:h-6 bg-purple/20 rounded-full animate-bounce delay-1000"></div>
-        <div className="absolute top-1/3 right-1/4 w-3 h-3 sm:w-4 sm:h-4 bg-green/20 rounded-full animate-bounce delay-1500"></div>
-        
         {/* Decorative Lines */}
-        <div className="absolute top-0 left-1/4 w-px h-16 sm:h-20 bg-gradient-to-b from-blue-550/50 to-transparent"></div>
-        <div className="absolute bottom-0 right-1/3 w-px h-12 sm:h-16 bg-gradient-to-t from-purple/50 to-transparent"></div>
+        <div className="absolute top-0 left-1/4 w-px h-16 sm:h-24 bg-gradient-to-b from-blue-550/60 to-transparent"></div>
+        <div className="absolute bottom-0 right-1/3 w-px h-12 sm:h-20 bg-gradient-to-t from-purple/60 to-transparent"></div>
+        <div className="absolute top-1/3 right-10 w-16 h-px bg-gradient-to-l from-green/40 to-transparent"></div>
       </div>
       
       {/* Toast Container */}
@@ -232,6 +243,68 @@ const SigninPage = () => {
         autoClose={3000} 
         hideProgressBar 
       />
+
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes gradient-shift {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-20px, -20px); }
+        }
+        @keyframes float-delayed {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(20px, 20px); }
+        }
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+          50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 30px rgba(67, 187, 255, 0.5); }
+          50% { box-shadow: 0 0 50px rgba(67, 187, 255, 0.8); }
+        }
+        @keyframes float-particle {
+          0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+          50% { transform: translate(10px, -20px); opacity: 0.8; }
+        }
+        @keyframes float-particle-delayed {
+          0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+          50% { transform: translate(-15px, -15px); opacity: 0.7; }
+        }
+        @keyframes float-particle-slow {
+          0%, 100% { transform: translate(0, 0); opacity: 0.5; }
+          50% { transform: translate(8px, -25px); opacity: 0.9; }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-delayed {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-gradient-shift { animation: gradient-shift 8s ease-in-out infinite; }
+        .animate-float { animation: float 8s ease-in-out infinite; }
+        .animate-float-delayed { animation: float-delayed 10s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse-slow 6s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-float-particle { animation: float-particle 4s ease-in-out infinite; }
+        .animate-float-particle-delayed { animation: float-particle-delayed 5s ease-in-out infinite; }
+        .animate-float-particle-slow { animation: float-particle-slow 6s ease-in-out infinite; }
+        .animate-fade-in { animation: fade-in 0.6s ease-out; }
+        .animate-fade-in-delayed { animation: fade-in-delayed 0.8s ease-out 0.2s both; }
+        .animate-fade-in-more-delayed { animation: fade-in 0.6s ease-out 0.4s both; }
+        .animate-fade-in-last { animation: fade-in 0.6s ease-out 0.6s both; }
+        .animate-slide-up { animation: slide-up 0.5s ease-out; }
+        .animate-slide-up-delayed { animation: slide-up 0.5s ease-out 0.1s both; }
+      `}</style>
     </>
   );
 };

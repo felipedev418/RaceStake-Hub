@@ -1,9 +1,10 @@
 import React, { useState, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { toast, ToastContainer } from 'react-toastify';
 import { registerUser, isUserRegistered, setCurrentUser } from '@/utils/userStorage';
 import AuthGuard from '@/components/auth/AuthGuard';
-
+import ToastIcon from '@/components/svg/ToastIcon';
 
 
 function Register() {
@@ -13,21 +14,21 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegister = async () => {
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (email && password && confirmPassword) {
       // Check if passwords match
       if (password !== confirmPassword) {
-        setErrorMessage('Passwords do not match!');
+        toast.error('Passwords do not match!');
         return;
       }
       
       // Check if user already exists
       if (isUserRegistered(email)) {
-        setErrorMessage('User already exists. Please sign in instead.');
+        toast.error('User already exists. Please sign in instead.');
         return;
       }
       
@@ -40,8 +41,7 @@ function Register() {
       const registrationSuccess = registerUser(email, password);
       
       if (registrationSuccess) {
-        setErrorMessage('');
-        setSuccessMessage('✅ Registration successful! Setting up 2FA...');
+        toast.success('✅ Registration successful! Setting up 2FA...');
         
         // Set current user with 2FA pending flag
         setCurrentUser(email, true, true);
@@ -50,12 +50,12 @@ function Register() {
           router.push('/2fa');
         }, 2000);
       } else {
-        setErrorMessage('Registration failed. Please try again.');
+        toast.error('Registration failed. Please try again.');
       }
       
       setIsLoading(false);
     } else {
-      setErrorMessage('Please fill in all required fields!');
+      toast.error('Please fill in all required fields!');
     }
   };
 
@@ -63,545 +63,254 @@ function Register() {
     <>
       <Head>
         <title>Register | P12 | Project Twelve</title>
-        <link rel="icon" type="image/png" sizes="100x100" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <meta name="description" content="Create your P12 Gaming account" />
       </Head>
 
-      <div className="register-page">
-        {/* Background Effects */}
-        <div className="bg-container">
-          <div className="bg-gradient"></div>
-          <div className="bg-orb"></div>
-          <div className="bg-orb"></div>
-          <div className="bg-orb"></div>
-          <div className="floating-element"></div>
-          <div className="floating-element"></div>
-          <div className="floating-element"></div>
-          <div className="decorative-line"></div>
-          <div className="decorative-line"></div>
-        </div>
+      <div className="fixed inset-0 min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-black">
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-550/20 via-purple/10 to-green/20 animate-gradient-shift"></div>
+        
+        {/* Animated Orbs */}
+        <div className="absolute top-10 left-10 sm:top-20 sm:left-20 w-64 h-64 sm:w-96 sm:h-96 bg-blue-550/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-48 h-48 sm:w-80 sm:h-80 bg-purple/20 rounded-full blur-3xl animate-float-delayed"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-60 sm:h-60 bg-green/20 rounded-full blur-3xl animate-pulse-slow"></div>
 
-        {/* Main Content */}
-        <div className="main-container">
-          {/* Logo Section */}
-          <div className="logo-section">
-            <div className="logo-icon">
-              <span>P12</span>
+        {/* Floating Particles */}
+        <div className="absolute top-10 right-[15%] w-2 h-2 bg-blue-550/40 rounded-full animate-float-particle"></div>
+        <div className="absolute top-[30%] right-[10%] w-3 h-3 bg-purple/40 rounded-full animate-float-particle-delayed"></div>
+        <div className="absolute bottom-[20%] left-[15%] w-2 h-2 bg-green/40 rounded-full animate-float-particle-slow"></div>
+        <div className="absolute top-[60%] right-[25%] w-1.5 h-1.5 bg-blue-550/30 rounded-full animate-float-particle"></div>
+
+        {/* Grid Pattern Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(67,187,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(67,187,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
+
+        {/* Main Container */}
+        <div className="relative z-10 w-full max-w-md mx-4 sm:mx-8">
+          {/* Logo/Brand Section */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-550 via-purple to-green mb-4 animate-pulse-glow shadow-[0_0_30px_rgba(67,187,255,0.5)]">
+              <span className="text-3xl font-bold text-black">P12</span>
             </div>
-            <h1 className="logo-title">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-b from-[#FFFFDA] via-[#FFE7B6] to-[#CE9658] bg-clip-text text-transparent mb-2 animate-fade-in">
               Join P12 Gaming
             </h1>
-            <p className="logo-subtitle">
-              Create your gaming account
-            </p>
+            <p className="text-gray-400 text-base animate-fade-in-delayed">Create your gaming account and start your journey</p>
           </div>
 
           {/* Registration Form */}
-          <div className="form-container">
-            <form onSubmit={(e) => e.preventDefault()}>
-              <div className="form-group">
-                <label htmlFor="email" className="form-label">Email Address</label>
-                <div className="form-input-wrapper">
+          <div className="backdrop-blur-xl bg-gray-850/50 border border-gray-700/50 rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_48px_rgba(67,187,255,0.15)] transition-all duration-300">
+            <form onSubmit={handleRegister} className="space-y-5">
+              {/* Email Input */}
+              <div className="animate-slide-up">
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-200 mb-2">
+                  Email Address
+                </label>
+                <div className="relative group">
                   <input
                     type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="form-input"
-                    placeholder="Enter your email"
+                    className="w-full px-4 py-3 pr-12 bg-black/40 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-550 focus:border-blue-550 transition-all duration-200 text-white placeholder-gray-500 hover:border-gray-500/70"
+                    placeholder="your.email@example.com"
                     required
                   />
-                  <svg className="form-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
-                  </svg>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400 group-focus-within:text-blue-550 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="password" className="form-label">Password</label>
-                <div className="form-input-wrapper">
+              {/* Password Input */}
+              <div className="animate-slide-up-delayed">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-200 mb-2">
+                  Password
+                </label>
+                <div className="relative group">
                   <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="form-input"
-                    placeholder="Enter your password"
+                    className="w-full px-4 py-3 pr-12 bg-black/40 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-550 focus:border-blue-550 transition-all duration-200 text-white placeholder-gray-500 hover:border-gray-500/70"
+                    placeholder="Create a strong password"
                     required
                   />
-                  <svg
-                    className="form-input-icon password-toggle"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                  <button
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white transition-colors focus:outline-none"
                   >
                     {showPassword ? (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                      </svg>
                     ) : (
-                      <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                      </>
+                      </svg>
                     )}
-                  </svg>
+                  </button>
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                <div className="form-input-wrapper">
+              {/* Confirm Password Input */}
+              <div className="animate-slide-up-more-delayed">
+                <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-200 mb-2">
+                  Confirm Password
+                </label>
+                <div className="relative group">
                   <input
                     type={showConfirmPassword ? 'text' : 'password'}
                     id="confirmPassword"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="form-input"
+                    className="w-full px-4 py-3 pr-12 bg-black/40 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-550 focus:border-blue-550 transition-all duration-200 text-white placeholder-gray-500 hover:border-gray-500/70"
                     placeholder="Confirm your password"
                     required
                   />
-                  <svg
-                    className="form-input-icon password-toggle"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                  <button
+                    type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white transition-colors focus:outline-none"
                   >
                     {showConfirmPassword ? (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                      </svg>
                     ) : (
-                      <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                      </>
+                      </svg>
                     )}
-                  </svg>
+                  </button>
                 </div>
               </div>
 
-              {errorMessage && (
-                <div className="error-alert">
-                  {errorMessage}
-                </div>
-              )}
-
-              <button 
-                type="button" 
-                onClick={handleRegister} 
-                className="register-btn"
+              {/* Submit Button */}
+              <button
+                type="submit"
                 disabled={isLoading}
+                className="w-full py-3 px-6 bg-gradient-to-r from-blue-550 via-purple to-green hover:from-blue-600 hover:via-purple/90 hover:to-green/90 text-black font-bold text-lg rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(67,187,255,0.5)] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none animate-fade-in-last"
               >
-                {isLoading ? 'Creating Account...' : 'Create Account'}
+                {isLoading ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Creating Account...
+                  </span>
+                ) : 'Create Account'}
               </button>
             </form>
           </div>
 
-          {/* Navigation Links */}
-          <div className="back-link-container">
-            <button onClick={() => router.push('/signin')} className="back-link">
-              ← Already have an account? Sign In
-            </button>
+          {/* Footer Links */}
+          <div className="mt-8 text-center space-y-3 animate-fade-in-last">
+            <div>
+              <button
+                onClick={() => router.push('/signin')}
+                className="text-blue-400 hover:text-blue-300 transition-colors text-sm font-semibold hover:underline"
+              >
+                Already have an account? <span className="text-white">Sign In</span>
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => router.push('/')}
+                className="inline-flex items-center text-gray-400 hover:text-white transition-colors text-sm group"
+              >
+                <svg className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Home
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Success Alert */}
-        {successMessage && (
-          <div className="success-alert show">
-            {successMessage}
-          </div>
-        )}
-
-        <style jsx>{`
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          
-          .register-page {
-            min-height: 100vh;
-            background: #000;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            overflow-x: hidden;
-          }
-          
-          /* Background Effects */
-          .bg-container {
-            position: fixed;
-            inset: 0;
-            min-height: 100vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: black;
-          }
-          
-          .bg-gradient {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, rgba(67, 187, 255, 0.2) 0%, rgba(252, 89, 255, 0.1) 50%, rgba(30, 219, 140, 0.2) 100%);
-            animation: pulse 4s ease-in-out infinite;
-          }
-          
-          .bg-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 6s ease-in-out infinite;
-          }
-          
-          .bg-orb:nth-child(2) {
-            top: 10%;
-            left: 10%;
-            width: 300px;
-            height: 300px;
-            background: rgba(67, 187, 255, 0.1);
-            animation-delay: -2s;
-          }
-          
-          .bg-orb:nth-child(3) {
-            bottom: 10%;
-            right: 10%;
-            width: 200px;
-            height: 200px;
-            background: rgba(252, 89, 255, 0.1);
-            animation-delay: -1s;
-          }
-          
-          .bg-orb:nth-child(4) {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150px;
-            height: 150px;
-            background: rgba(30, 219, 140, 0.1);
-            animation-delay: -3s;
-          }
-          
-          /* Floating Elements */
-          .floating-element {
-            position: absolute;
-            border-radius: 50%;
-            animation: bounce 3s ease-in-out infinite;
-          }
-          
-          .floating-element:nth-child(5) {
-            top: 5%;
-            right: 5%;
-            width: 20px;
-            height: 20px;
-            background: rgba(67, 187, 255, 0.3);
-            animation-delay: 0.5s;
-          }
-          
-          .floating-element:nth-child(6) {
-            bottom: 5%;
-            left: 5%;
-            width: 15px;
-            height: 15px;
-            background: rgba(252, 89, 255, 0.3);
-            animation-delay: 1s;
-          }
-          
-          .floating-element:nth-child(7) {
-            top: 30%;
-            right: 20%;
-            width: 10px;
-            height: 10px;
-            background: rgba(30, 219, 140, 0.3);
-            animation-delay: 1.5s;
-          }
-          
-          /* Decorative Lines */
-          .decorative-line {
-            position: absolute;
-            width: 1px;
-            background: linear-gradient(to bottom, rgba(67, 187, 255, 0.5), transparent);
-          }
-          
-          .decorative-line:nth-child(8) {
-            top: 0;
-            left: 25%;
-            height: 80px;
-          }
-          
-          .decorative-line:nth-child(9) {
-            bottom: 0;
-            right: 30%;
-            height: 60px;
-            background: linear-gradient(to top, rgba(252, 89, 255, 0.5), transparent);
-          }
-          
-          /* Main Container */
-          .main-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
-            padding: 2rem;
-          }
-          
-          /* Logo Section */
-          .logo-section {
-            text-align: center;
-            margin-bottom: 2rem;
-          }
-          
-          .logo-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(to right, #43BBFF, #FC59FF);
-            margin-bottom: 1rem;
-            animation: pulse 2s ease-in-out infinite;
-          }
-          
-          .logo-icon span {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #000;
-          }
-          
-          .logo-title {
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(to bottom, #FFFFDA 0%, #FFE7B6 50%, #CE9658 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-          }
-          
-          .logo-subtitle {
-            color: #A5A6AB;
-            font-size: 1rem;
-          }
-          
-          /* Form Container */
-          .form-container {
-            background: rgba(61, 68, 75, 0.5);
-            border: 1px solid rgb(70, 75, 90);
-            backdrop-filter: blur(16px);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-          }
-          
-          .form-group {
-            margin-bottom: 1.5rem;
-          }
-          
-          .form-label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #CEDCFF;
-            margin-bottom: 0.5rem;
-          }
-          
-          .form-input-wrapper {
-            position: relative;
-          }
-          
-          .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            padding-right: 2.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(111, 119, 132, 0.5);
-            border-radius: 0.5rem;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.2s ease;
-          }
-          
-          .form-input:focus {
-            outline: none;
-            border-color: #43BBFF;
-            box-shadow: 0 0 0 2px rgba(67, 187, 255, 0.2);
-          }
-          
-          .form-input::placeholder {
-            color: #A5A6AB;
-          }
-          
-          .form-input-icon {
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 1.25rem;
-            height: 1.25rem;
-            color: #A5A6AB;
-            cursor: pointer;
-            transition: color 0.2s ease;
-          }
-          
-          .form-input-icon:hover {
-            color: #fff;
-          }
-          
-          /* Error Alert */
-          .error-alert {
-            text-align: center;
-            font-size: 0.875rem;
-            color: #FF6B6B;
-            margin-top: 0.5rem;
-          }
-          
-          /* Button */
-          .register-btn {
-            width: 100%;
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(to right, #43BBFF, #FC59FF);
-            border: none;
-            border-radius: 0.5rem;
-            color: #000;
-            font-size: 1.125rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-          }
-          
-          .register-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(67, 187, 255, 0.3);
-          }
-          
-          .register-btn:active {
-            transform: translateY(0);
-          }
-          
-          .register-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-          }
-          
-          .register-btn:disabled:hover {
-            transform: none;
-            box-shadow: none;
-          }
-          
-          /* Back Link */
-          .back-link-container {
-            margin-top: 2rem;
-            text-align: center;
-          }
-          
-          .back-link {
-            color: #A5A6AB;
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: color 0.2s ease;
-            background: none;
-            border: none;
-            cursor: pointer;
-          }
-          
-          .back-link:hover {
-            color: #fff;
-          }
-          
-          /* Success Alert */
-          .success-alert {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(30, 219, 140, 0.9);
-            color: #000;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            z-index: 1001;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-          }
-          
-          .success-alert.show {
-            opacity: 1;
-          }
-          
-          /* Animations */
-          @keyframes pulse {
-            0%, 100% {
-              opacity: 1;
-            }
-            50% {
-              opacity: 0.5;
-            }
-          }
-          
-          @keyframes float {
-            0%, 100% {
-              transform: translateY(0px);
-            }
-            50% {
-              transform: translateY(-20px);
-            }
-          }
-          
-          @keyframes bounce {
-            0%, 100% {
-              transform: translateY(0px);
-            }
-            50% {
-              transform: translateY(-10px);
-            }
-          }
-          
-          /* Responsive Design */
-          @media (max-width: 640px) {
-            .main-container {
-              padding: 1rem;
-            }
-            
-            .form-container {
-              padding: 1.5rem;
-            }
-            
-            .logo-icon {
-              width: 60px;
-              height: 60px;
-            }
-            
-            .logo-icon span {
-              font-size: 1.5rem;
-            }
-            
-            .logo-title {
-              font-size: 1.5rem;
-            }
-            
-            .bg-orb:nth-child(2) {
-              width: 200px;
-              height: 200px;
-            }
-            
-            .bg-orb:nth-child(3) {
-              width: 150px;
-              height: 150px;
-            }
-            
-            .bg-orb:nth-child(4) {
-              width: 100px;
-              height: 100px;
-            }
-          }
-        `}</style>
+        {/* Decorative Lines */}
+        <div className="absolute top-0 left-1/4 w-px h-16 sm:h-24 bg-gradient-to-b from-blue-550/60 to-transparent"></div>
+        <div className="absolute bottom-0 right-1/3 w-px h-12 sm:h-20 bg-gradient-to-t from-purple/60 to-transparent"></div>
+        <div className="absolute top-1/3 right-10 w-16 h-px bg-gradient-to-l from-green/40 to-transparent"></div>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer 
+        theme="dark" 
+        toastClassName="toast-container" 
+        icon={<ToastIcon />} 
+        autoClose={3000} 
+        hideProgressBar 
+      />
+
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes gradient-shift {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-20px, -20px); }
+        }
+        @keyframes float-delayed {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(20px, 20px); }
+        }
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+          50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 30px rgba(67, 187, 255, 0.5); }
+          50% { box-shadow: 0 0 50px rgba(67, 187, 255, 0.8); }
+        }
+        @keyframes float-particle {
+          0%, 100% { transform: translate(0, 0); opacity: 0.4; }
+          50% { transform: translate(10px, -20px); opacity: 0.8; }
+        }
+        @keyframes float-particle-delayed {
+          0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+          50% { transform: translate(-15px, -15px); opacity: 0.7; }
+        }
+        @keyframes float-particle-slow {
+          0%, 100% { transform: translate(0, 0); opacity: 0.5; }
+          50% { transform: translate(8px, -25px); opacity: 0.9; }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-delayed {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-gradient-shift { animation: gradient-shift 8s ease-in-out infinite; }
+        .animate-float { animation: float 8s ease-in-out infinite; }
+        .animate-float-delayed { animation: float-delayed 10s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse-slow 6s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-float-particle { animation: float-particle 4s ease-in-out infinite; }
+        .animate-float-particle-delayed { animation: float-particle-delayed 5s ease-in-out infinite; }
+        .animate-float-particle-slow { animation: float-particle-slow 6s ease-in-out infinite; }
+        .animate-fade-in { animation: fade-in 0.6s ease-out; }
+        .animate-fade-in-delayed { animation: fade-in-delayed 0.8s ease-out 0.2s both; }
+        .animate-fade-in-more-delayed { animation: fade-in 0.6s ease-out 0.4s both; }
+        .animate-fade-in-last { animation: fade-in 0.6s ease-out 0.6s both; }
+        .animate-slide-up { animation: slide-up 0.5s ease-out; }
+        .animate-slide-up-delayed { animation: slide-up 0.5s ease-out 0.1s both; }
+        .animate-slide-up-more-delayed { animation: slide-up 0.5s ease-out 0.2s both; }
+      `}</style>
     </>
   );
 }
