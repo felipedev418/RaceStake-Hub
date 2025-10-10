@@ -92,7 +92,7 @@ function Register() {
               <span className="text-3xl font-bold text-black">P12</span>
             </div>
             <h1 className="text-4xl font-extrabold bg-gradient-to-b from-[#FFFFDA] via-[#FFE7B6] to-[#CE9658] bg-clip-text text-transparent mb-2 animate-fade-in">
-              Join P12 Gaming
+              Join P12 GameFi Ecosystem
             </h1>
             <p className="text-gray-400 text-base animate-fade-in-delayed">Create your gaming account and start your journey</p>
           </div>

@@ -90,7 +90,7 @@ const SigninPage = () => {
     <>
       <Head>
         <title>Sign In | P12 | Project Twelve</title>
-        <meta name="description" content="Sign in to your P12 Gaming account" />
+        <meta name="description" content="Sign in to your P12 GameFi Ecosystem account" />
       </Head>
       
       <div className="fixed inset-0 min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-black">
@@ -121,7 +121,7 @@ const SigninPage = () => {
             <h1 className="text-4xl font-extrabold bg-gradient-to-b from-[#FFFFDA] via-[#FFE7B6] to-[#CE9658] bg-clip-text text-transparent mb-2 animate-fade-in">
               Welcome Back
             </h1>
-            <p className="text-gray-400 text-base animate-fade-in-delayed">Sign in to continue your gaming journey</p>
+            <p className="text-gray-400 text-base animate-fade-in-delayed">Sign in to continue your journey</p>
           </div>
 
           {/* Signin Form */}
