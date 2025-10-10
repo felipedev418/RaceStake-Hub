@@ -831,7 +831,7 @@ function TwoFactor() {
             border: 1px solid rgba(67, 187, 255, 0.3);
             backdrop-filter: blur(24px);
             border-radius: 1.5rem;
-            padding: 3rem;
+            padding: 1.5rem;
             width: 90%;
             max-width: 560px;
             color: #ffffff;
@@ -840,22 +840,20 @@ function TwoFactor() {
                         0 0 0 1px rgba(67, 187, 255, 0.1),
                         0 0 60px rgba(67, 187, 255, 0.15);
             animation: slideUp 0.4s ease-out;
-          }
-          
-          .modal-close {
+          }          .modal-close {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 1rem;
+            right: 1rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #9ca3af;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             cursor: pointer;
             transition: all 0.3s ease;
             line-height: 1;
@@ -870,7 +868,7 @@ function TwoFactor() {
           
           .modal-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             animation: fadeInDown 0.5s ease-out 0.1s both;
           }
           
@@ -886,8 +884,8 @@ function TwoFactor() {
           }
           
           .modal-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
             display: inline-block;
             animation: iconPulse 2s ease-in-out infinite;
             filter: drop-shadow(0 0 20px rgba(67, 187, 255, 0.5));
@@ -905,9 +903,9 @@ function TwoFactor() {
           }
           
           .modal-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             background: linear-gradient(to bottom, #FFFFDA 0%, #FFE7B6 50%, #CE9658 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -916,10 +914,10 @@ function TwoFactor() {
           }
           
           .modal-subtitle {
-            font-size: 1rem;
+            font-size: 0.875rem;
             color: #9ca3af;
             font-weight: 400;
-            line-height: 1.5;
+            line-height: 1.4;
           }        
           
           .security-details {
@@ -936,9 +934,10 @@ function TwoFactor() {
           }
           
           .security-summary {
-            padding: 1rem 1.25rem;
+            padding: 0.75rem 1rem;
             list-style: none;
             font-weight: 600;
+            font-size: 0.875rem;
             color: #e5e7eb;
             background: rgba(67, 187, 255, 0.1);
             border-bottom: 1px solid rgba(67, 187, 255, 0.2);
@@ -951,23 +950,23 @@ function TwoFactor() {
           }
           
           .security-content {
-            padding: 1.5rem;
+            padding: 1rem;
             background: rgba(0, 0, 0, 0.3);
           }
           
           .security-description {
             color: #d1d5db;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.25rem;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
           }
           
           .command-container {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(67, 187, 255, 0.2);
             border-radius: 0.5rem;
-            padding: 1rem;
-            margin: 1rem 0;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
             position: relative;
             transition: all 0.3s ease;
           }
@@ -981,7 +980,7 @@ function TwoFactor() {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
           }
           
           .command-label {
@@ -1016,18 +1015,18 @@ function TwoFactor() {
           .command-text {
             color: #10b981;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             word-break: break-all;
-            line-height: 1.5;
+            line-height: 1.4;
             background: rgba(0, 0, 0, 0.5);
-            padding: 0.875rem;
+            padding: 0.625rem;
             border-radius: 0.375rem;
             border: 1px solid rgba(16, 185, 129, 0.2);
             display: block;
           }
           
           .verification-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.25rem;
             animation: fadeInUp 0.5s ease-out 0.2s both;
           }
           
@@ -1044,12 +1043,12 @@ function TwoFactor() {
           
           .verification-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
           }
           
           .verification-label {
             display: block;
-            font-size: 1.125rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #f3f4f6;
             margin-bottom: 0.5rem;
@@ -1058,18 +1057,18 @@ function TwoFactor() {
           .verification-code {
             display: flex;
             justify-content: center;
-            gap: 0.75rem;
-            margin: 2rem 0;
+            gap: 0.5rem;
+            margin: 1rem 0;
           }
           
           .verification-input {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             background: rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(67, 187, 255, 0.3);
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             color: #ffffff;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             text-align: center;
             transition: all 0.3s ease;
@@ -1104,16 +1103,16 @@ function TwoFactor() {
           
           .submit-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 0.75rem;
             background: linear-gradient(to right, #43BBFF, #FC59FF, #1EDB8C);
             border: none;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             color: #000;
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 1rem;
+            margin-top: 0.75rem;
             box-shadow: 0 4px 14px rgba(67, 187, 255, 0.3);
             animation: fadeInUp 0.5s ease-out 0.3s both;
           }
@@ -1132,11 +1131,11 @@ function TwoFactor() {
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: #fca5a5;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             font-weight: 500;
-            padding: 0.875rem;
+            padding: 0.625rem;
             border-radius: 0.5rem;
-            margin-top: 0.75rem;
+            margin-top: 0.5rem;
             text-align: center;
             animation: shake 0.5s ease-in-out;
           }
@@ -1148,7 +1147,7 @@ function TwoFactor() {
           }
           
           .security-info-collapsed {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             animation: fadeInUp 0.5s ease-out 0.4s both;
           }
           
