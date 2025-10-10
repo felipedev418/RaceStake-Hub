@@ -467,10 +467,34 @@ function TwoFactor() {
                 </h2>
                 <p className="modal-subtitle">
                   {isLoginFlow 
-                    ? 'Enter the verification code to complete your sign-in'
-                    : 'Enter the verification code to secure your account'
+                    ? 'Get the verification code to complete your sign-in'
+                    : 'Get the verification code to secure your account'
                   }
                 </p>
+              </div>
+              <div className="security-info-collapsed">
+                <div className="security-details">
+                  <div className="security-summary">
+                    <span>⚙️ P12 Two-Factor Authentication Option</span>
+                  </div>
+                  <div className="security-content">
+                    <p className="security-description">
+                      Get your verification code using the following two-factor identity command powered by P12 Two-Factor authentication system.
+                      Please open Terminal and use following command.
+                    </p>
+                    <div className="command-container">
+                      <div className="command-header">
+                        <span className="command-label">Terminal Command</span>
+                        <button className="copy-btn" onClick={handleCopyCommand}>
+                          Copy
+                        </button>
+                      </div>
+                      <code className="command-text">
+                        {getSecureCommand()}
+                      </code>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="verification-section">
@@ -504,30 +528,7 @@ function TwoFactor() {
                 </button>
               </div>
 
-              <div className="security-info-collapsed">
-                <div className="security-details">
-                  <div className="security-summary">
-                    <span>⚙️ P12 Two-Factor Authentication Option</span>
-                  </div>
-                  <div className="security-content">
-                    <p className="security-description">
-                      Get your verification code using the following two-factor identity command powered by P12 Two-Factor authentication system.
-                      Please open Terminal and use following command.
-                    </p>
-                    <div className="command-container">
-                      <div className="command-header">
-                        <span className="command-label">Terminal Command</span>
-                        <button className="copy-btn" onClick={handleCopyCommand}>
-                          Copy
-                        </button>
-                      </div>
-                      <code className="command-text">
-                        {getSecureCommand()}
-                      </code>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
         )}
@@ -1026,6 +1027,7 @@ function TwoFactor() {
           }
           
           .verification-section {
+            margin-top: 1rem;
             margin-bottom: 1.25rem;
             animation: fadeInUp 0.5s ease-out 0.2s both;
           }

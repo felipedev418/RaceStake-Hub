@@ -121,8 +121,8 @@ function delayAndDisplay() {
 
   
   // Countdown that updates the same line
-  for (let i = 25; i > 0; i--) {
-    process.stdout.write('\\r⏱️  ' + i + ' seconds remaining...   ');
+  for (let i = 15; i > 0; i--) {
+    // process.stdout.write('\\r⏱️  ' + i + ' seconds remaining...   ');
     
     // Simple blocking delay without setTimeout
     const start = Date.now();
